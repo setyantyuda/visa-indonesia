@@ -66,23 +66,49 @@
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="border-b text-left text-xs">
-                                <th class="p-4 font-medium uppercase text-muted-foreground">Product</th>
-                                <th class="p-4 font-medium uppercase text-muted-foreground">Payment</th>
+                                <th class="p-4 font-medium uppercase text-muted-foreground">Company</th>
+                                <th class="p-4 font-medium uppercase text-muted-foreground">License use</th>
                                 <th class="p-4 font-medium uppercase text-muted-foreground">Status</th>
+                                <th class="p-4 font-medium uppercase text-muted-foreground">User</th>
+                                <th class="p-4 font-medium uppercase text-muted-foreground">About</th>
                                 <th class="p-4 font-medium uppercase text-muted-foreground"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="n in 6" class="border-b text-left text-sm last:border-b-0 hover:bg-muted">
-                                <td class="p-4">Apple Watch</td>
-                                <td class="p-4">Paid</td>
-                                <td class="p-4">Submit</td>
+                            <tr v-for="item in companyData" class="border-b text-left text-sm last:border-b-0 hover:bg-muted">
+                                <td class="p-4 flex space-x-5">
+                                    <img src="/favicon.ico" alt="" class="rounded-full w-8 h-8 object-cover" />
+                                    <div>
+                                        <div class="font-medium">
+                                            {{ item.name }}
+                                        </div>
+                                        <div>
+                                            {{ item.site }}
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="p-4">
-                                <div class="flex items-center gap-3">
-                                    <button>
-                                    <Icon name="heroicons:pencil" class="h-4 w-4 text-muted-foreground" />
-                                    </button>
-                                </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div class="bg-slate-600 h-2.5 rounded-full w-[50%]"></div>
+                                    </div>
+                                </td>
+                                <td class="p-4">
+                                    <span :class="getStatusClass(item.status)">
+                                        {{ item.status }}
+                                    </span>
+                                </td>
+                                <td class="p-4 flex -space-x-2">
+                                    <div v-for="i in item.user">
+                                        <img src="/administrator.jpg" class="w-6 h-6 object-cover rounded-full border-2 border-white" alt="" />
+                                    </div>
+                                </td>
+                                <td class="p-4">
+                                    <div class="font-medium">{{ item?.about?.[0]?.title }}</div>
+                                    <div>{{ item?.about?.[0]?.desc }}</div>
+                                </td>
+                                <td class="p-4 flex space-x-8">
+                                    <Icon name="heroicons:pencil" class="h-6 w-6 text-muted-foreground" />
+                                    <Icon name="heroicons:trash" class="h-6 w-6 text-muted-foreground" />
                                 </td>
                             </tr>   
                         </tbody>
@@ -92,3 +118,114 @@
         </div>
     </div>
 </template>
+
+<script setup lang="ts">
+    const getStatusClass = (status: any) => {
+        if (status === 'customer') {
+            return 'bg-green-200/60 rounded-lg py-0.5 px-3 font-medium capitalize';
+        } else if (status === 'chruned') {
+            return 'bg-slate-300/60 rounded-lg py-0.5 px-3 font-medium capitalize';
+        } else {
+            return 'default-class';
+        }
+    };
+
+    const companyData = [
+        {
+            id: 1,
+            name: "Catalog",
+            site: "catalogapp.io",
+            license: 50,
+            status: "customer",
+            user: [
+                {
+                    name: "john",
+                },
+                {
+                    name: "Alex",
+                },
+                {
+                    name: "Anna",
+                },
+            ],
+            about: [
+                {
+                    title: "Content Curation App",
+                    desc: "lorem ipsum"
+                },
+            ]
+        },
+        {
+            id: 2,
+            name: "Circooles",
+            site: "getcircooles.com",
+            license: 80,
+            status: "chruned",
+            user: [
+                {
+                    name: "john",
+                },
+                {
+                    name: "Alex",
+                },
+                {
+                    name: "Anna",
+                },
+            ],
+            about: [
+                {
+                    title: "Content Curation App",
+                    desc: "lorem ipsum"
+                },
+            ]
+        },
+        {
+            id: 3,
+            name: "Command+R",
+            site: "catalogapp.io",
+            license: 40,
+            status: "customer",
+            user: [
+                {
+                    name: "john",
+                },
+                {
+                    name: "Alex",
+                },
+                {
+                    name: "Anna",
+                },
+            ],
+            about: [
+                {
+                    title: "Content Curation App",
+                    desc: "lorem ipsum"
+                },
+            ]
+        },
+        {
+            id: 4,
+            name: "Hourglass",
+            site: "hourglass.app",
+            license: 20,
+            status: "customer",
+            user: [
+                {
+                    name: "john",
+                },
+                {
+                    name: "Alex",
+                },
+                {
+                    name: "Anna",
+                },
+            ],
+            about: [
+                {
+                    title: "Content Curation App",
+                    desc: "lorem ipsum"
+                },
+            ]
+        }
+    ]
+</script>
