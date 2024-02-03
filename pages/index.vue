@@ -1,5 +1,5 @@
 <template>
-    <div class="overflow-y-auto bg-white rounded-tl-3xl w-full px-10 py-12 mt-5">
+    <div class="overflow-y-auto bg-white rounded-tl-3xl w-full px-10 py-12 mt-7">
         <div class="font-bold text-3xl">Welcome back, Administrator!</div>
         <div class="text-secondary">Track, manage and forecast your platform informative here.</div>
         <div class="space-y-6 mt-8">
@@ -66,12 +66,12 @@
                     <table class="w-full border-1.5">
                         <thead>
                             <tr class="border-b text-left text-xs">
-                                <th class="p-4 font-medium uppercase text-muted-foreground">Company</th>
-                                <th class="p-4 font-medium uppercase text-muted-foreground">License use</th>
-                                <th class="p-4 font-medium uppercase text-muted-foreground">Status</th>
-                                <th class="p-4 font-medium uppercase text-muted-foreground">User</th>
-                                <th class="p-4 font-medium uppercase text-muted-foreground">About</th>
-                                <th class="p-4 font-medium uppercase text-muted-foreground"></th>
+                                <th class="p-4 font-medium uppercase">Company</th>
+                                <th class="p-4 font-medium uppercase">License use</th>
+                                <th class="p-4 font-medium uppercase">Status</th>
+                                <th class="p-4 font-medium uppercase">User</th>
+                                <th class="p-4 font-medium uppercase">About</th>
+                                <th class="p-4 font-medium uppercase"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -107,8 +107,8 @@
                                     <div>{{ item?.about?.[0]?.desc }}</div>
                                 </td>
                                 <td class="p-4 flex space-x-8">
-                                    <Icon name="heroicons:pencil" class="h-6 w-6 text-muted-foreground" />
-                                    <Icon name="heroicons:trash" class="h-6 w-6 text-muted-foreground" />
+                                    <Icon name="heroicons:pencil" class="h-6 w-6" />
+                                    <Icon name="heroicons:trash" class="h-6 w-6" />
                                 </td>
                             </tr>   
                         </tbody>
