@@ -1,10 +1,10 @@
 <template>
-    <div class="bg-white rounded-tl-3xl w-full px-10 pt-12 mt-5">
+    <div class="overflow-y-auto bg-white rounded-tl-3xl w-full px-10 py-12 mt-5">
         <div class="font-bold text-3xl">Welcome back, Administrator!</div>
         <div class="text-secondary">Track, manage and forecast your platform informative here.</div>
         <div class="space-y-6 mt-8">
             <div class="grid grid-cols-3 justify-between gap-4">
-                <div class="border-2 rounded-md p-5">
+                <div class="border-2 rounded-lg p-5">
                     <div class="flex justify-between">
                         <div class="font-semibold text-lg">Revenue in Percentage</div>
                         <img 
@@ -21,7 +21,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="border-2 rounded-md p-5">
+                <div class="border-2 rounded-lg p-5">
                     <div class="flex justify-between">
                         <div class="font-semibold text-lg">Total Order</div>
                         <img 
@@ -32,7 +32,7 @@
                     </div>
                     <div class="font-bold text-3xl">400 Orders</div>
                 </div>
-                <div class="border-2 rounded-md p-5">
+                <div class="border-2 rounded-lg p-5">
                     <div class="flex justify-between">
                         <div class="font-semibold text-lg">Pending Customer</div>
                         <img 
@@ -55,7 +55,7 @@
                         alt=""
                     />
                     <span class="text-secondary border-r-2 pr-3">Search</span>
-                    <input class="outline-none"/>
+                    <input class="outline-none" placeholder="type here..."/>
                 </div>
             </div>
 
@@ -63,7 +63,7 @@
                 <div
                     class="mt-5 overflow-x-auto rounded-md border bg-background scrollbar-thin scrollbar-thumb-input scrollbar-thumb-rounded-md"
                 >
-                    <table class="w-full border-collapse">
+                    <table class="w-full border-1.5">
                         <thead>
                             <tr class="border-b text-left text-xs">
                                 <th class="p-4 font-medium uppercase text-muted-foreground">Company</th>
@@ -99,7 +99,7 @@
                                 </td>
                                 <td class="p-4 flex -space-x-2">
                                     <div v-for="i in item.user">
-                                        <img src="/administrator.jpg" class="w-6 h-6 object-cover rounded-full border-2 border-white" alt="" />
+                                        <img src="/administrator.jpg" class="w-6 h-6 object-cover rounded-full border-1.5 border-white" alt="" />
                                     </div>
                                 </td>
                                 <td class="p-4">
@@ -122,11 +122,11 @@
 <script setup lang="ts">
     const getStatusClass = (status: any) => {
         if (status === 'customer') {
-            return 'bg-green-200/60 rounded-lg py-0.5 px-3 font-medium capitalize';
+            return 'bg-green-200/60 rounded-lg py-0.5 px-4 font-medium capitalize';
         } else if (status === 'chruned') {
-            return 'bg-slate-300/60 rounded-lg py-0.5 px-3 font-medium capitalize';
+            return 'bg-slate-300/60 rounded-lg py-0.5 px-4 font-medium capitalize';
         } else {
-            return 'default-class';
+            return '';
         }
     };
 
@@ -205,6 +205,102 @@
         },
         {
             id: 4,
+            name: "Hourglass",
+            site: "hourglass.app",
+            license: 20,
+            status: "customer",
+            user: [
+                {
+                    name: "john",
+                },
+                {
+                    name: "Alex",
+                },
+                {
+                    name: "Anna",
+                },
+            ],
+            about: [
+                {
+                    title: "Content Curation App",
+                    desc: "lorem ipsum"
+                },
+            ]
+        },
+        {
+            id: 5,
+            name: "Catalog",
+            site: "catalogapp.io",
+            license: 50,
+            status: "customer",
+            user: [
+                {
+                    name: "john",
+                },
+                {
+                    name: "Alex",
+                },
+                {
+                    name: "Anna",
+                },
+            ],
+            about: [
+                {
+                    title: "Content Curation App",
+                    desc: "lorem ipsum"
+                },
+            ]
+        },
+        {
+            id: 6,
+            name: "Circooles",
+            site: "getcircooles.com",
+            license: 80,
+            status: "chruned",
+            user: [
+                {
+                    name: "john",
+                },
+                {
+                    name: "Alex",
+                },
+                {
+                    name: "Anna",
+                },
+            ],
+            about: [
+                {
+                    title: "Content Curation App",
+                    desc: "lorem ipsum"
+                },
+            ]
+        },
+        {
+            id: 7,
+            name: "Command+R",
+            site: "catalogapp.io",
+            license: 40,
+            status: "customer",
+            user: [
+                {
+                    name: "john",
+                },
+                {
+                    name: "Alex",
+                },
+                {
+                    name: "Anna",
+                },
+            ],
+            about: [
+                {
+                    title: "Content Curation App",
+                    desc: "lorem ipsum"
+                },
+            ]
+        },
+        {
+            id: 8,
             name: "Hourglass",
             site: "hourglass.app",
             license: 20,
