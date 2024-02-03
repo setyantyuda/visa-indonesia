@@ -75,7 +75,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in companyData" class="border-b text-left text-sm last:border-b-0 hover:bg-muted">
+                            <tr v-for="item in companyData" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
                                 <td class="p-4 flex space-x-5">
                                     <img src="/favicon.ico" alt="" class="rounded-full w-8 h-8 object-cover" />
                                     <div>
@@ -99,7 +99,7 @@
                                 </td>
                                 <td class="p-4 flex -space-x-2">
                                     <div v-for="i in item.user">
-                                        <img src="/administrator.jpg" class="w-6 h-6 object-cover rounded-full border-1.5 border-white" alt="" />
+                                        <img src="/administrator.jpg" class="w-6 h-6 object-cover rounded-full border-2 border-white hover:scale-150" alt="" />
                                     </div>
                                 </td>
                                 <td class="p-4">
@@ -113,6 +113,38 @@
                             </tr>   
                         </tbody>
                     </table>
+                    <div class="flex justify-between w-full">
+                        <div class="p-4 font-medium text-secondary my-auto">
+                            Page 1 of 10
+                        </div>
+                        <div class="p-4 flex">
+                            <div class="border hover:bg-slate-100 rounded-l-md w-9 h-9 text-center flex justify-center">
+                                <Icon name="heroicons:arrow-left" class="h-6 w-6 my-auto" />
+                            </div>
+                            <template v-for="(item, index) in pageLength">
+                                <div
+                                    :key="index"
+                                    v-if="shouldRenderComponent(index, pageLength)"
+                                    class="border hover:bg-slate-100 w-9 h-9 font-medium text-center flex justify-center"
+                                >
+                                    <div class="my-auto">
+                                        {{ item }}
+                                    </div>
+                                </div>
+                                <div
+                                    v-else-if="index === Math.floor(pageLength / 2)"
+                                    class="border hover:bg-slate-100 w-9 h-9 font-medium text-center flex justify-center"
+                                >
+                                    <div class="my-auto">
+                                        ...
+                                    </div>
+                                </div>
+                            </template>
+                            <div class="border hover:bg-slate-100 rounded-r-md w-9 h-9 text-center flex justify-center">
+                                <Icon name="heroicons:arrow-right" class="h-6 w-6 my-auto" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -120,6 +152,7 @@
 </template>
 
 <script setup lang="ts">
+    const pageLength = 15
     const getStatusClass = (status: any) => {
         if (status === 'customer') {
             return 'bg-green-200/60 rounded-lg py-0.5 px-4 font-medium capitalize';
@@ -128,6 +161,10 @@
         } else {
             return '';
         }
+    };
+
+    const shouldRenderComponent = (index: any, length: any) => {
+      return index < 3 || index >= length - 3;
     };
 
     const companyData = [
