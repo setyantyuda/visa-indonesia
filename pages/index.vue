@@ -28,7 +28,7 @@
             >
                 <table class="w-full border-1.5">
                     <thead>
-                        <tr class="border-b text-left text-xs">
+                        <tr class="border-b text-left text-sm">
                             <th class="p-4">
                                 <button @click="() => selectAll()" >
                                     <img :src="getSelectedAllStatus()" alt="" class="w-5 h-5" />
@@ -399,9 +399,9 @@
     // data table status class handler
     const getStatusClass = (status: any) => {
         if (status === 'customer') {
-            return 'bg-green-200/60 rounded-lg py-0.5 px-4 capitalize';
+            return 'bg-green-200/60 rounded-lg text-xs text-green-600 py-1 px-4 capitalize';
         } else if (status === 'churned') {
-            return 'bg-slate-300/60 rounded-lg py-0.5 px-4 capitalize';
+            return 'bg-slate-300/60 rounded-lg text-xs text-primary py-1 px-4 capitalize';
         } else {
             return '';
         }

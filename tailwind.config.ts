@@ -13,6 +13,9 @@ export default {
       colors: {
         "primary" : "#101929",
         "secondary" : "#667184"
+      },
+      fontWeight: {
+        "medium" : "600"
       }
     },
   },
