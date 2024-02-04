@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-between w-full">
-        <div class="p-4 font-medium text-secondary my-auto">
+        <div class="p-4 text-secondary my-auto">
             Page {{ currentPage }} of {{ totalPage }}
         </div>
         <div class="p-4 flex">
@@ -9,31 +9,31 @@
             </div>
 
             <template v-if="showFirstPage">
-                <div @click="() => changePageHandler(1)" class="border hover:bg-slate-200 hover:cursor-pointer w-9 h-9 font-medium text-center flex justify-center">
+                <div @click="() => changePageHandler(1)" class="border hover:bg-slate-200 hover:cursor-pointer w-9 h-9 text-center flex justify-center">
                     <div class="my-auto">1</div>
                 </div>
             </template>
 
-            <div v-if="showEllipsisBefore" class="border w-9 h-9 font-medium text-center flex justify-center">
+            <div v-if="showEllipsisBefore" class="border w-9 h-9 text-center flex justify-center">
                 <div class="my-auto">...</div>
             </div>
 
             <template v-for="item in paginatedItems" :key="item">
                 <div
                     @click="() => changePageHandler(item)"
-                    class="border hover:bg-slate-200 hover:cursor-pointer w-9 h-9 font-medium text-center flex justify-center"
+                    class="border hover:bg-slate-200 hover:cursor-pointer w-9 h-9 text-center flex justify-center"
                     :class="{ 'bg-slate-200': item === currentPage }"
                 >
                     <div class="my-auto">{{ item }}</div>
                 </div>
             </template>
 
-            <div v-if="showEllipsisAfter" class="border w-9 h-9 font-medium text-center flex justify-center">
+            <div v-if="showEllipsisAfter" class="border w-9 h-9 text-center flex justify-center">
                 <div class="my-auto">...</div>
             </div>
 
             <template v-if="showLastPage">
-                <div @click="() => changePageHandler(totalPage)" class="border hover:bg-slate-200 hover:cursor-pointer w-9 h-9 font-medium text-center flex justify-center">
+                <div @click="() => changePageHandler(totalPage)" class="border hover:bg-slate-200 hover:cursor-pointer w-9 h-9 text-center flex justify-center">
                     <div class="my-auto">{{ totalPage }}</div>
                 </div>
             </template>

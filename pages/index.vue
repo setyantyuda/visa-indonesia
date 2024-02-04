@@ -29,14 +29,14 @@
                 <table class="w-full border-1.5">
                     <thead>
                         <tr class="border-b text-left text-xs">
-                            <th class="p-4 font-medium uppercase">
+                            <th class="p-4 font-semibold uppercase">
                                 <button @click="() => selectAll()" >
                                     <img :src="getSelectedAllStatus()" alt="" class="w-5 h-5" />
                                 </button>
                             </th>
                             <th 
                                 @click="sortBy('name')" 
-                                class="hover:cursor-pointer p-4 font-medium uppercase"
+                                class="hover:cursor-pointer p-4 font-semibold uppercase"
                             >
                                 Company
                                 <span>
@@ -46,11 +46,11 @@
                                     />
                                 </span>
                             </th>
-                            <th @click="sortBy('license')"  class="hover:cursor-pointer p-4 font-medium uppercase">License use<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
-                            <th @click="sortBy('status')" class="hover:cursor-pointer p-4 font-medium uppercase">Status<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
-                            <th class="hover:cursor-pointer p-4 font-medium uppercase">User</th>
-                            <th class="hover:cursor-pointer p-4 font-medium uppercase">About</th>
-                            <th class="hover:cursor-pointer p-4 font-medium uppercase"></th>
+                            <th @click="sortBy('license')"  class="hover:cursor-pointer p-4 font-semibold uppercase">License use<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
+                            <th @click="sortBy('status')" class="hover:cursor-pointer p-4 font-semibold uppercase">Status<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
+                            <th class="hover:cursor-pointer p-4 font-semibold uppercase">User</th>
+                            <th class="hover:cursor-pointer p-4 font-semibold uppercase">About</th>
+                            <th class="hover:cursor-pointer p-4 font-semibold uppercase"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,7 +64,7 @@
                                 <div class="flex space-x-5">
                                     <img :src="item.image" alt="" class="rounded-full w-10 h-10 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
                                     <div>
-                                        <div class="font-medium">
+                                        <div class="font-semibold">
                                             {{ item.name }}
                                         </div>
                                         <div>
@@ -101,7 +101,7 @@
                                             v-else-if="index === item.user.length - 1"
                                             @click="() => toggleModal('openModalUser', item.user)"
                                         > 
-                                            <div :key="index" class="hover:cursor-pointer w-6 h-6 p-[1px] text-xs font-medium overflow-hidden object-cover rounded-full border-2 bg-slate-200 border-white hover:scale-150" >
+                                            <div :key="index" class="hover:cursor-pointer w-6 h-6 p-[1px] text-xs font-semibold overflow-hidden object-cover rounded-full border-2 bg-slate-200 border-white hover:scale-150" >
                                                 +{{index + 1 - maxRenderedUser}}
                                             </div>
                                         </div>
@@ -109,7 +109,7 @@
                                 </div>
                             </td>
                             <td class="p-4 max-w-[350px]">
-                                <div class="font-medium">{{ item?.about?.[0]?.title }}</div>
+                                <div class="font-semibold">{{ item?.about?.[0]?.title }}</div>
                                 <div class="overflow-hidden">{{ item?.about?.[0]?.desc }}</div>
                             </td>
                             <td class="p-4">
@@ -126,7 +126,7 @@
                 
             </div>
         </div>
-        
+
     </div>
     
     <!-- all popup modal -->
@@ -143,8 +143,8 @@
             <table class="w-full border-1.5">
                 <thead>
                     <tr class="border-b text-left text-xs">
-                        <th class="p-4 font-medium uppercase w-20">Image</th>
-                        <th class="p-4 font-medium uppercase">Name</th>
+                        <th class="p-4 font-semibold uppercase w-20">Image</th>
+                        <th class="p-4 font-semibold uppercase">Name</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -153,7 +153,7 @@
                             <img :src="item?.image" alt="" class="rounded-full w-10 h-10 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
                         </td>
                         <td class="p-4">
-                            <div class="font-medium">{{ item?.name }}</div>
+                            <div class="">{{ item?.name }}</div>
                         </td>
                     </tr>   
                 </tbody>
@@ -171,7 +171,7 @@
             <div class="flex space-x-4">
                 <img :src="showedData[0]?.image" alt="" class="rounded-full w-16 h-16 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
                 <div>
-                    <div class="font-medium">{{ showedData[0]?.name }}</div>
+                    <div class="font-semibold">{{ showedData[0]?.name }}</div>
                     <div>{{ showedData[0]?.site }}</div>
                 </div>
             </div>
@@ -183,20 +183,20 @@
         </div>
         
         <div class="">
-            <div class="font-medium text-secondary mb-2">About: </div>
-            <div class="font-medium">{{ showedData[0]?.about?.[0]?.title }}</div>
+            <div class="text-secondary mb-2">About: </div>
+            <div class="font-semibold">{{ showedData[0]?.about?.[0]?.title }}</div>
             <div>{{ showedData[0]?.about?.[0]?.desc }}</div>
         </div>
         <div class="">
-            <div class="font-medium text-secondary mb-2">Users List: </div>
+            <div class="text-secondary mb-2">Users List: </div>
             <div
                 class=" overflow-x-auto rounded-md border bg-background"
             >
                 <table class="w-full border-1.5">
                     <thead>
                         <tr class="border-b text-left text-xs">
-                            <th class="p-4 font-medium uppercase w-20">Image</th>
-                            <th class="p-4 font-medium uppercase">Name</th>
+                            <th class="p-4 font-semibold uppercase w-20">Image</th>
+                            <th class="p-4 font-semibold uppercase">Name</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -205,7 +205,7 @@
                                 <img :src="item?.image" alt="" class="rounded-full w-10 h-10 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
                             </td>
                             <td class="p-4">
-                                <div class="font-medium">{{ item?.name }}</div>
+                                <div class="">{{ item?.name }}</div>
                             </td>
                         </tr>   
                     </tbody>
@@ -399,9 +399,9 @@
     // data table status class handler
     const getStatusClass = (status: any) => {
         if (status === 'customer') {
-            return 'bg-green-200/60 rounded-lg py-0.5 px-4 font-medium capitalize';
+            return 'bg-green-200/60 rounded-lg py-0.5 px-4 capitalize';
         } else if (status === 'churned') {
-            return 'bg-slate-300/60 rounded-lg py-0.5 px-4 font-medium capitalize';
+            return 'bg-slate-300/60 rounded-lg py-0.5 px-4 capitalize';
         } else {
             return '';
         }

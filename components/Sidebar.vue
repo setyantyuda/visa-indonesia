@@ -6,7 +6,7 @@
       <NuxtLink
         to="/"
       >
-        <div class="text-3xl">
+        <div class="text-3xl font-bold">
             Visa Indonesia
         </div>
       </NuxtLink>
