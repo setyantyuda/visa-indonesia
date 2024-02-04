@@ -29,14 +29,14 @@
                 <table class="w-full border-1.5">
                     <thead>
                         <tr class="border-b text-left text-xs">
-                            <th class="p-4 font-semibold uppercase">
+                            <th class="p-4">
                                 <button @click="() => selectAll()" >
                                     <img :src="getSelectedAllStatus()" alt="" class="w-5 h-5" />
                                 </button>
                             </th>
                             <th 
                                 @click="sortBy('name')" 
-                                class="hover:cursor-pointer p-4 font-semibold uppercase"
+                                class="hover:cursor-pointer p-4 font-normal text-secondary"
                             >
                                 Company
                                 <span>
@@ -46,11 +46,11 @@
                                     />
                                 </span>
                             </th>
-                            <th @click="sortBy('license')"  class="hover:cursor-pointer p-4 font-semibold uppercase">License use<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
-                            <th @click="sortBy('status')" class="hover:cursor-pointer p-4 font-semibold uppercase">Status<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
-                            <th class="hover:cursor-pointer p-4 font-semibold uppercase">User</th>
-                            <th class="hover:cursor-pointer p-4 font-semibold uppercase">About</th>
-                            <th class="hover:cursor-pointer p-4 font-semibold uppercase"></th>
+                            <th @click="sortBy('license')"  class="hover:cursor-pointer p-4 font-normal text-secondary">License use<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
+                            <th @click="sortBy('status')" class="hover:cursor-pointer p-4 font-normal text-secondary">Status<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
+                            <th class="hover:cursor-pointer p-4 font-normal text-secondary">User</th>
+                            <th class="hover:cursor-pointer p-4 font-normal text-secondary">About</th>
+                            <th class="hover:cursor-pointer p-4 font-normal text-secondary"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,7 +67,7 @@
                                         <div class="font-semibold">
                                             {{ item.name }}
                                         </div>
-                                        <div>
+                                        <div class="font-light text-secondary">
                                             {{ item.site }}
                                         </div>
                                     </div>
@@ -101,7 +101,7 @@
                                             v-else-if="index === item.user.length - 1"
                                             @click="() => toggleModal('openModalUser', item.user)"
                                         > 
-                                            <div :key="index" class="hover:cursor-pointer w-6 h-6 p-[1px] text-xs font-semibold overflow-hidden object-cover rounded-full border-2 bg-slate-200 border-white hover:scale-150" >
+                                            <div :key="index" class="hover:cursor-pointer w-6 h-6 p-[2px] text-xs overflow-hidden object-cover rounded-full border-2 bg-slate-200 border-white hover:scale-150" >
                                                 +{{index + 1 - maxRenderedUser}}
                                             </div>
                                         </div>
@@ -109,8 +109,8 @@
                                 </div>
                             </td>
                             <td class="p-4 max-w-[350px]">
-                                <div class="font-semibold">{{ item?.about?.[0]?.title }}</div>
-                                <div class="overflow-hidden">{{ item?.about?.[0]?.desc }}</div>
+                                <div class="tracking-wide">{{ item?.about?.[0]?.title }}</div>
+                                <div class="overflow-hidden font-light text-secondary">{{ item?.about?.[0]?.desc }}</div>
                             </td>
                             <td class="p-4">
                                 <div class="flex space-x-8">
@@ -143,8 +143,8 @@
             <table class="w-full border-1.5">
                 <thead>
                     <tr class="border-b text-left text-xs">
-                        <th class="p-4 font-semibold uppercase w-20">Image</th>
-                        <th class="p-4 font-semibold uppercase">Name</th>
+                        <th class="p-4 font-normal text-secondary w-20">Image</th>
+                        <th class="p-4 font-normal text-secondary">Name</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -172,7 +172,7 @@
                 <img :src="showedData[0]?.image" alt="" class="rounded-full w-16 h-16 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
                 <div>
                     <div class="font-semibold">{{ showedData[0]?.name }}</div>
-                    <div>{{ showedData[0]?.site }}</div>
+                    <div class="text-secondary">{{ showedData[0]?.site }}</div>
                 </div>
             </div>
             <div>
@@ -183,20 +183,20 @@
         </div>
         
         <div class="">
-            <div class="text-secondary mb-2">About: </div>
+            <div class="mb-2">About: </div>
             <div class="font-semibold">{{ showedData[0]?.about?.[0]?.title }}</div>
-            <div>{{ showedData[0]?.about?.[0]?.desc }}</div>
+            <div class="text-secondary">{{ showedData[0]?.about?.[0]?.desc }}</div>
         </div>
         <div class="">
-            <div class="text-secondary mb-2">Users List: </div>
+            <div class="mb-2">Users List: </div>
             <div
                 class=" overflow-x-auto rounded-md border bg-background"
             >
                 <table class="w-full border-1.5">
                     <thead>
                         <tr class="border-b text-left text-xs">
-                            <th class="p-4 font-semibold uppercase w-20">Image</th>
-                            <th class="p-4 font-semibold uppercase">Name</th>
+                            <th class="p-4 font-normal text-secondary w-20">Image</th>
+                            <th class="p-4 font-normal text-secondary">Name</th>
                         </tr>
                     </thead>
                     <tbody>
