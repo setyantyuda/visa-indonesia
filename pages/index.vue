@@ -66,16 +66,16 @@
                     <table class="w-full border-1.5">
                         <thead>
                             <tr class="border-b text-left text-xs">
-                                <th class="p-4 font-medium uppercase">Company</th>
-                                <th class="p-4 font-medium uppercase">License use</th>
-                                <th class="p-4 font-medium uppercase">Status</th>
-                                <th class="p-4 font-medium uppercase">User</th>
-                                <th class="p-4 font-medium uppercase">About</th>
+                                <th class="p-4 font-medium uppercase">Company<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
+                                <th class="p-4 font-medium uppercase">License use<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
+                                <th class="p-4 font-medium uppercase">Status<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
+                                <th class="p-4 font-medium uppercase">User<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
+                                <th class="p-4 font-medium uppercase">About<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
                                 <th class="p-4 font-medium uppercase"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in companyData" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
+                            <tr v-for="item in paginatedData" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
                                 <td class="p-4 flex space-x-5">
                                     <img src="/favicon.ico" alt="" class="rounded-full w-8 h-8 object-cover" />
                                     <div>
@@ -98,49 +98,50 @@
                                     </span>
                                 </td>
                                 <td class="p-4 flex -space-x-2">
-                                    <div v-for="i in item.user">
+                                    <div v-for="i in item.user" @click="() => toggleModal('openModalUser')">
                                         <img src="/administrator.jpg" class="w-6 h-6 object-cover rounded-full border-2 border-white hover:scale-150" alt="" />
                                     </div>
                                 </td>
-                                <td class="p-4">
+                                <td class="p-4 max-w-[350px]">
                                     <div class="font-medium">{{ item?.about?.[0]?.title }}</div>
-                                    <div>{{ item?.about?.[0]?.desc }}</div>
+                                    <div class="overflow-hidden">{{ item?.about?.[0]?.desc }}</div>
                                 </td>
                                 <td class="p-4 flex space-x-8">
-                                    <Icon name="heroicons:pencil" class="h-6 w-6" />
-                                    <Icon name="heroicons:trash" class="h-6 w-6" />
+                                    <Icon @click="toggleModal('openModalEdit')" name="heroicons:pencil" class="h-6 w-6 hover:cursor-pointer" />
+                                    <Icon @click="toggleModal('openModalDelete')" name="heroicons:trash" class="h-6 w-6 hover:cursor-pointer" />
                                 </td>
                             </tr>   
                         </tbody>
                     </table>
                     <div class="flex justify-between w-full">
                         <div class="p-4 font-medium text-secondary my-auto">
-                            Page 1 of 10
+                            Page {{ currentPage }} of {{ totalPage }}
                         </div>
                         <div class="p-4 flex">
-                            <div class="border hover:bg-slate-100 rounded-l-md w-9 h-9 text-center flex justify-center">
+                            <div @click="changePage(currentPage - 1)" class="border hover:bg-slate-200 hover:cursor-pointer rounded-l-md w-9 h-9 text-center flex justify-center">
                                 <Icon name="heroicons:arrow-left" class="h-6 w-6 my-auto" />
                             </div>
-                            <template v-for="(item, index) in pageLength">
+                            <template v-for="(item, index) in totalPage">
                                 <div
                                     :key="index"
-                                    v-if="shouldRenderComponent(index, pageLength)"
-                                    class="border hover:bg-slate-100 w-9 h-9 font-medium text-center flex justify-center"
+                                    @click="changePage(item)"
+                                    v-if="shouldRenderComponent(index, totalPage)"
+                                    class="border hover:bg-slate-200 hover:cursor-pointer w-9 h-9 font-medium text-center flex justify-center"
                                 >
                                     <div class="my-auto">
                                         {{ item }}
                                     </div>
                                 </div>
                                 <div
-                                    v-else-if="index === Math.floor(pageLength / 2)"
-                                    class="border hover:bg-slate-100 w-9 h-9 font-medium text-center flex justify-center"
+                                    v-else-if="index === Math.floor(totalPage / 2)"
+                                    class="border hover:bg-slate-200 w-9 h-9 font-medium text-center flex justify-center"
                                 >
                                     <div class="my-auto">
                                         ...
                                     </div>
                                 </div>
                             </template>
-                            <div class="border hover:bg-slate-100 rounded-r-md w-9 h-9 text-center flex justify-center">
+                            <div @click="changePage(currentPage + 1)" class="border hover:bg-slate-200 hover:cursor-pointer rounded-r-md w-9 h-9 text-center flex justify-center">
                                 <Icon name="heroicons:arrow-right" class="h-6 w-6 my-auto" />
                             </div>
                         </div>
@@ -149,14 +150,93 @@
             </div>
         </div>
     </div>
+    <Popup 
+        v-if="modalTrigger.openModalUser" 
+        :toggleModal="() => toggleModal('openModalUser')"
+        title="Company User List"
+    >
+        <h1>Popup</h1>
+    </Popup>
+    <Popup 
+        v-if="modalTrigger.openModalEdit" 
+        :toggleModal="() => toggleModal('openModalEdit')"
+        title="Edit Company Detail"
+    >
+        <h1>Popup</h1>
+    </Popup>
+    <Popup 
+        v-if="modalTrigger.openModalDelete" 
+        :toggleModal="() => toggleModal('openModalDelete')"
+        title="Delete Company"
+    >
+        <h1>Popup</h1>
+    </Popup>
 </template>
 
 <script setup lang="ts">
-    const pageLength = 15
+    const generateDummyData = () => {
+        const companyData = [];
+
+        for (let i = 1; i <= 100; i++) {
+            const newCompany = {
+                id: i,
+                name: `Company${i}`,
+                site: `company${i}.com`,
+                license: Math.floor(Math.random() * 100) + 1,
+                status: i % 2 === 0 ? 'churned' : 'customer',
+                user: [
+                { name: 'john' },
+                { name: 'Alex' },
+                { name: 'Anna' },
+                ],
+                about: [
+                {
+                    title: 'Lorem Ipsum Title',
+                    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                },
+                ],
+            };
+
+            companyData.push(newCompany);
+            }
+
+            return companyData;
+    };
+    const companyData = generateDummyData();
+
+    const modalTrigger = ref({
+        openModalUser: false,
+        openModalEdit: false,
+        openModalDelete: false
+    })
+    const toggleModal = (e: boolean) => {
+        modalTrigger.value[e] = !modalTrigger.value[e]
+    }
+
+    const currentPage = ref(1);
+    const pageSize = 10
+    const totalPage = companyData.length / pageSize
+    const paginatedData = computed(() => {
+        const startIndex = (currentPage.value - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+
+        return companyData.slice(startIndex, endIndex);
+    });
+
+    const changePage = (page: any) => {
+        if ( page === 0) {
+            currentPage.value = 1
+        } else if (page === totalPage + 1) {
+            currentPage.value === totalPage
+        } else {
+            currentPage.value = page
+        }
+    }
+
     const getStatusClass = (status: any) => {
         if (status === 'customer') {
             return 'bg-green-200/60 rounded-lg py-0.5 px-4 font-medium capitalize';
-        } else if (status === 'chruned') {
+        } else if (status === 'churned') {
             return 'bg-slate-300/60 rounded-lg py-0.5 px-4 font-medium capitalize';
         } else {
             return '';
@@ -166,199 +246,4 @@
     const shouldRenderComponent = (index: any, length: any) => {
       return index < 3 || index >= length - 3;
     };
-
-    const companyData = [
-        {
-            id: 1,
-            name: "Catalog",
-            site: "catalogapp.io",
-            license: 50,
-            status: "customer",
-            user: [
-                {
-                    name: "john",
-                },
-                {
-                    name: "Alex",
-                },
-                {
-                    name: "Anna",
-                },
-            ],
-            about: [
-                {
-                    title: "Content Curation App",
-                    desc: "lorem ipsum"
-                },
-            ]
-        },
-        {
-            id: 2,
-            name: "Circooles",
-            site: "getcircooles.com",
-            license: 80,
-            status: "chruned",
-            user: [
-                {
-                    name: "john",
-                },
-                {
-                    name: "Alex",
-                },
-                {
-                    name: "Anna",
-                },
-            ],
-            about: [
-                {
-                    title: "Content Curation App",
-                    desc: "lorem ipsum"
-                },
-            ]
-        },
-        {
-            id: 3,
-            name: "Command+R",
-            site: "catalogapp.io",
-            license: 40,
-            status: "customer",
-            user: [
-                {
-                    name: "john",
-                },
-                {
-                    name: "Alex",
-                },
-                {
-                    name: "Anna",
-                },
-            ],
-            about: [
-                {
-                    title: "Content Curation App",
-                    desc: "lorem ipsum"
-                },
-            ]
-        },
-        {
-            id: 4,
-            name: "Hourglass",
-            site: "hourglass.app",
-            license: 20,
-            status: "customer",
-            user: [
-                {
-                    name: "john",
-                },
-                {
-                    name: "Alex",
-                },
-                {
-                    name: "Anna",
-                },
-            ],
-            about: [
-                {
-                    title: "Content Curation App",
-                    desc: "lorem ipsum"
-                },
-            ]
-        },
-        {
-            id: 5,
-            name: "Catalog",
-            site: "catalogapp.io",
-            license: 50,
-            status: "customer",
-            user: [
-                {
-                    name: "john",
-                },
-                {
-                    name: "Alex",
-                },
-                {
-                    name: "Anna",
-                },
-            ],
-            about: [
-                {
-                    title: "Content Curation App",
-                    desc: "lorem ipsum"
-                },
-            ]
-        },
-        {
-            id: 6,
-            name: "Circooles",
-            site: "getcircooles.com",
-            license: 80,
-            status: "chruned",
-            user: [
-                {
-                    name: "john",
-                },
-                {
-                    name: "Alex",
-                },
-                {
-                    name: "Anna",
-                },
-            ],
-            about: [
-                {
-                    title: "Content Curation App",
-                    desc: "lorem ipsum"
-                },
-            ]
-        },
-        {
-            id: 7,
-            name: "Command+R",
-            site: "catalogapp.io",
-            license: 40,
-            status: "customer",
-            user: [
-                {
-                    name: "john",
-                },
-                {
-                    name: "Alex",
-                },
-                {
-                    name: "Anna",
-                },
-            ],
-            about: [
-                {
-                    title: "Content Curation App",
-                    desc: "lorem ipsum"
-                },
-            ]
-        },
-        {
-            id: 8,
-            name: "Hourglass",
-            site: "hourglass.app",
-            license: 20,
-            status: "customer",
-            user: [
-                {
-                    name: "john",
-                },
-                {
-                    name: "Alex",
-                },
-                {
-                    name: "Anna",
-                },
-            ],
-            about: [
-                {
-                    title: "Content Curation App",
-                    desc: "lorem ipsum"
-                },
-            ]
-        }
-    ]
 </script>
