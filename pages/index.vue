@@ -77,7 +77,7 @@
                         <tbody>
                             <tr v-for="item in paginatedData" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
                                 <td class="p-4 flex space-x-5">
-                                    <img src="/favicon.ico" alt="" class="rounded-full w-8 h-8 object-cover" />
+                                    <img :src="item.image" alt="" class="rounded-full w-10 h-10 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
                                     <div>
                                         <div class="font-medium">
                                             {{ item.name }}
@@ -98,9 +98,27 @@
                                     </span>
                                 </td>
                                 <td class="p-4 flex -space-x-2">
-                                    <div v-for="i in item.user" @click="() => toggleModal('openModalUser')">
-                                        <img src="/administrator.jpg" class="w-6 h-6 object-cover rounded-full border-2 border-white hover:scale-150" alt="" />
-                                    </div>
+                                    <template v-for="(i, index) in item.user">
+                                        <div 
+                                            v-if="shouldRenderUserComponent(index)"
+                                            @click="() => toggleModal('openModalUser')"
+                                        >
+                                            <img 
+                                                :key="index" 
+                                                :src="i.image"
+                                                class="hover:cursor-pointer w-6 h-6 object-cover rounded-full border-2 border-white hover:scale-150" 
+                                                alt=""
+                                            />
+                                        </div>
+                                        <div
+                                            v-else-if="index === item.user.length - 1"
+                                            @click="() => toggleModal('openModalUser')"
+                                        > 
+                                            <div :key="index" class="hover:cursor-pointer w-6 h-6 p-[1px] text-xs font-medium overflow-hidden object-cover rounded-full border-2 bg-slate-200 border-white hover:scale-150" >
+                                                +{{index + 1 - maxRenderedUser}}
+                                            </div>
+                                        </div>
+                                    </template>
                                 </td>
                                 <td class="p-4 max-w-[350px]">
                                     <div class="font-medium">{{ item?.about?.[0]?.title }}</div>
@@ -174,21 +192,40 @@
 </template>
 
 <script setup lang="ts">
+    const generateRandomName = () => {
+        const names = ['John', 'Jane', 'Alex', 'Anna', 'Bob', 'Charlie', 'David', 'Emma', 'Frank', 'Grace'];
+        return names[Math.floor(Math.random() * names.length)];
+    };
+
+    const generateRandomImage = () => {
+        const placeholderImages = [
+            'https://placekitten.com/50/50',
+            'https://placebear.com/50/50',
+            'https://placekitten.com/60/60',
+            'https://placebear.com/60/60',
+            '/administrator.jpg',
+        ];
+        return placeholderImages[Math.floor(Math.random() * placeholderImages.length)];
+    };
+
     const generateDummyData = () => {
         const companyData = [];
 
         for (let i = 1; i <= 100; i++) {
+            // dibuat minimal 5 user di tiap company
+            const numberOfUsers = Math.max(5, Math.floor(Math.random() * 10) + 1);
+
             const newCompany = {
                 id: i,
                 name: `Company${i}`,
+                image: generateRandomImage(),
                 site: `company${i}.com`,
                 license: Math.floor(Math.random() * 100) + 1,
                 status: i % 2 === 0 ? 'churned' : 'customer',
-                user: [
-                { name: 'john' },
-                { name: 'Alex' },
-                { name: 'Anna' },
-                ],
+                user: Array.from({ length: numberOfUsers }, (_, index) => ({
+                    name: generateRandomName(),
+                    image: generateRandomImage(),
+                })),
                 about: [
                 {
                     title: 'Lorem Ipsum Title',
@@ -245,5 +282,10 @@
 
     const shouldRenderComponent = (index: any, length: any) => {
       return index < 3 || index >= length - 3;
+    };
+
+    const maxRenderedUser = 5
+    const shouldRenderUserComponent = (index: any) => {
+      return index < maxRenderedUser;
     };
 </script>
