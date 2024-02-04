@@ -1,133 +1,132 @@
 <template>
-    <div class="overflow-y-auto bg-white rounded-tl-3xl w-full px-10 py-12 mt-7">
-        <div class="font-bold text-3xl">Welcome back, Administrator!</div>
-        <div class="text-secondary">Track, manage and forecast your platform informative here.</div>
+    <div class="font-bold text-3xl">Welcome back, Administrator!</div>
+    <div class="text-secondary">Track, manage and forecast your platform informative here.</div>
 
-        <div class="space-y-6 mt-8">
+    <div class="space-y-6 mt-8">
 
-            <DashboardCard/>
-            
-            <!-- search bar -->
-            <div class="grid grid-cols-3 gap-5">
-                <div></div>
-                <div></div>
-                <div class="border-2 rounded-md p-2 flex space-x-3">
-                    <img 
-                        src="https://api.iconify.design/iconamoon:search-bold.svg?color=%23667184"
-                        class="w-6 h-6 object-cover"
-                        alt=""
-                    />
-                    <span class="text-secondary border-r-2 pr-3">Search</span>
-                    <input v-model="searchQuery" class="outline-none" placeholder="type here..."/>
-                </div>
-            </div>
-
-            <!-- data table -->
-            <div class="mt-5">
-                <div
-                    class="overflow-x-auto rounded-md border"
-                >
-                    <table class="w-full border-1.5">
-                        <thead>
-                            <tr class="border-b text-left text-xs">
-                                <th class="p-4 font-medium uppercase">
-                                    <button @click="() => selectAll()" >
-                                        <img :src="getSelectedAllStatus()" alt="" class="w-5 h-5" />
-                                    </button>
-                                </th>
-                                <th 
-                                    @click="sortBy('name')" 
-                                    class="hover:cursor-pointer p-4 font-medium uppercase"
-                                >
-                                    Company
-                                    <span>
-                                        <Icon 
-                                            name="heroicons:arrow-up" 
-                                            class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" 
-                                        />
-                                    </span>
-                                </th>
-                                <th @click="sortBy('license')"  class="hover:cursor-pointer p-4 font-medium uppercase">License use<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
-                                <th @click="sortBy('status')" class="hover:cursor-pointer p-4 font-medium uppercase">Status<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
-                                <th class="hover:cursor-pointer p-4 font-medium uppercase">User</th>
-                                <th class="hover:cursor-pointer p-4 font-medium uppercase">About</th>
-                                <th class="hover:cursor-pointer p-4 font-medium uppercase"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(item, index) in paginatedData" :key="index" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
-                                <td class="p-4">
-                                    <button @click="() => selectData(item)" >
-                                        <img :src="getSelectedStatus(item)" alt="" class="w-5 h-5" />
-                                    </button>
-                                </td>
-                                <td class="p-4">
-                                    <div class="flex space-x-5">
-                                        <img :src="item.image" alt="" class="rounded-full w-10 h-10 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
-                                        <div>
-                                            <div class="font-medium">
-                                                {{ item.name }}
-                                            </div>
-                                            <div>
-                                                {{ item.site }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="p-4">
-                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                        <div :style="{ 'width': item.license }" class="bg-slate-600 h-2.5 rounded-full"></div>
-                                    </div>
-                                </td>
-                                <td class="p-4">
-                                    <span :class="getStatusClass(item.status)">
-                                        {{ item.status }}
-                                    </span>
-                                </td>
-                                <td class="p-4">
-                                    <div class="flex -space-x-2">
-                                        <template v-for="(i, index) in item.user">
-                                            <div 
-                                                v-if="shouldRenderUserComponent(index)"
-                                                @click="() => toggleModal('openModalUser', item.user)"
-                                            >
-                                                <img 
-                                                    :key="index" 
-                                                    :src="i.image"
-                                                    class="hover:cursor-pointer w-6 h-6 object-cover rounded-full border-2 border-white hover:scale-150" 
-                                                    alt=""
-                                                />
-                                            </div>
-                                            <div
-                                                v-else-if="index === item.user.length - 1"
-                                                @click="() => toggleModal('openModalUser', item.user)"
-                                            > 
-                                                <div :key="index" class="hover:cursor-pointer w-6 h-6 p-[1px] text-xs font-medium overflow-hidden object-cover rounded-full border-2 bg-slate-200 border-white hover:scale-150" >
-                                                    +{{index + 1 - maxRenderedUser}}
-                                                </div>
-                                            </div>
-                                        </template>
-                                    </div>
-                                </td>
-                                <td class="p-4 max-w-[350px]">
-                                    <div class="font-medium">{{ item?.about?.[0]?.title }}</div>
-                                    <div class="overflow-hidden">{{ item?.about?.[0]?.desc }}</div>
-                                </td>
-                                <td class="p-4">
-                                    <div class="flex space-x-8">
-                                        <Icon @click="toggleModal('openModalEdit', [item])" name="heroicons:pencil" class="h-6 w-6 hover:cursor-pointer" />
-                                        <Icon @click="toggleModal('openModalDelete')" name="heroicons:trash" class="h-6 w-6 hover:cursor-pointer" />
-                                    </div>
-                                </td>
-                            </tr>   
-                        </tbody>
-                    </table>
-
-                    <Pagination :currentPage="currentPage" :totalPage="totalPage" :changePage="changePage" />
-                    
-                </div>
+        <DashboardCard/>
+        
+        <!-- search bar -->
+        <div class="grid grid-cols-3 gap-5">
+            <div></div>
+            <div></div>
+            <div class="border-2 rounded-md p-2 flex space-x-3">
+                <img 
+                    src="https://api.iconify.design/iconamoon:search-bold.svg?color=%23667184"
+                    class="w-6 h-6 object-cover"
+                    alt=""
+                />
+                <span class="text-secondary border-r-2 pr-3">Search</span>
+                <input v-model="searchQuery" class="outline-none" placeholder="type here..."/>
             </div>
         </div>
+
+        <!-- data table -->
+        <div class="mt-5">
+            <div
+                class="overflow-x-auto rounded-md border"
+            >
+                <table class="w-full border-1.5">
+                    <thead>
+                        <tr class="border-b text-left text-xs">
+                            <th class="p-4 font-medium uppercase">
+                                <button @click="() => selectAll()" >
+                                    <img :src="getSelectedAllStatus()" alt="" class="w-5 h-5" />
+                                </button>
+                            </th>
+                            <th 
+                                @click="sortBy('name')" 
+                                class="hover:cursor-pointer p-4 font-medium uppercase"
+                            >
+                                Company
+                                <span>
+                                    <Icon 
+                                        name="heroicons:arrow-up" 
+                                        class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" 
+                                    />
+                                </span>
+                            </th>
+                            <th @click="sortBy('license')"  class="hover:cursor-pointer p-4 font-medium uppercase">License use<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
+                            <th @click="sortBy('status')" class="hover:cursor-pointer p-4 font-medium uppercase">Status<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
+                            <th class="hover:cursor-pointer p-4 font-medium uppercase">User</th>
+                            <th class="hover:cursor-pointer p-4 font-medium uppercase">About</th>
+                            <th class="hover:cursor-pointer p-4 font-medium uppercase"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in paginatedData" :key="index" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
+                            <td class="p-4">
+                                <button @click="() => selectData(item)" >
+                                    <img :src="getSelectedStatus(item)" alt="" class="w-5 h-5" />
+                                </button>
+                            </td>
+                            <td class="p-4">
+                                <div class="flex space-x-5">
+                                    <img :src="item.image" alt="" class="rounded-full w-10 h-10 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
+                                    <div>
+                                        <div class="font-medium">
+                                            {{ item.name }}
+                                        </div>
+                                        <div>
+                                            {{ item.site }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="p-4">
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div :style="{ 'width': item.license }" class="bg-slate-600 h-2.5 rounded-full"></div>
+                                </div>
+                            </td>
+                            <td class="p-4">
+                                <span :class="getStatusClass(item.status)">
+                                    {{ item.status }}
+                                </span>
+                            </td>
+                            <td class="p-4">
+                                <div class="flex -space-x-2">
+                                    <template v-for="(i, index) in item.user">
+                                        <div 
+                                            v-if="shouldRenderUserComponent(index)"
+                                            @click="() => toggleModal('openModalUser', item.user)"
+                                        >
+                                            <img 
+                                                :key="index" 
+                                                :src="i.image"
+                                                class="hover:cursor-pointer w-6 h-6 object-cover rounded-full border-2 border-white hover:scale-150" 
+                                                alt=""
+                                            />
+                                        </div>
+                                        <div
+                                            v-else-if="index === item.user.length - 1"
+                                            @click="() => toggleModal('openModalUser', item.user)"
+                                        > 
+                                            <div :key="index" class="hover:cursor-pointer w-6 h-6 p-[1px] text-xs font-medium overflow-hidden object-cover rounded-full border-2 bg-slate-200 border-white hover:scale-150" >
+                                                +{{index + 1 - maxRenderedUser}}
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </td>
+                            <td class="p-4 max-w-[350px]">
+                                <div class="font-medium">{{ item?.about?.[0]?.title }}</div>
+                                <div class="overflow-hidden">{{ item?.about?.[0]?.desc }}</div>
+                            </td>
+                            <td class="p-4">
+                                <div class="flex space-x-8">
+                                    <Icon @click="toggleModal('openModalEdit', [item])" name="heroicons:pencil" class="h-6 w-6 hover:cursor-pointer" />
+                                    <Icon @click="toggleModal('openModalDelete')" name="heroicons:trash" class="h-6 w-6 hover:cursor-pointer" />
+                                </div>
+                            </td>
+                        </tr>   
+                    </tbody>
+                </table>
+
+                <Pagination :currentPage="currentPage" :totalPage="totalPage" :changePage="changePage" />
+                
+            </div>
+        </div>
+        
     </div>
     
     <!-- all popup modal -->
@@ -239,6 +238,11 @@
 </template>
 
 <script setup lang="ts">
+    definePageMeta({
+        // use default layout
+        layout: 'default'
+    })
+
     // list of data
     const generateRandomName = () => {
         const names = ['John', 'Jane', 'Alex', 'Anna', 'Bob', 'Charlie', 'David', 'Emma', 'Frank', 'Grace'];
@@ -340,6 +344,7 @@
         filteredCompanyData.value = sortData(filteredCompanyData.value);
     };
 
+    // changePage
     const changePage = (page: any) => {
         if (page === 0) {
             currentPage.value = 1
@@ -411,6 +416,7 @@
     // select data handler
     let selectedData: any[] = []
 
+    // select all at the table header
     const selectAll = () => {
         if (selectedData.length > 0) {
             selectedData = []
@@ -422,6 +428,7 @@
         toastMessage.value = selectedData.length
     }
     
+    // select specific data
     const selectData = (data: any) => {
         if (selectedData.includes(data)) {
             let array = selectedData
