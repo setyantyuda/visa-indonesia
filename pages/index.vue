@@ -80,7 +80,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in paginatedData" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
+                            <tr v-for="(item, index) in paginatedData" :key="index" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
                                 <td class="p-4">
                                     <button @click="() => selectData(item)" >
                                         <img :src="getSelectedStatus(item)" alt="" class="w-5 h-5" />
@@ -101,7 +101,7 @@
                                 </td>
                                 <td class="p-4">
                                     <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                        <div class="bg-slate-600 h-2.5 rounded-full w-[50%]"></div>
+                                        <div :style="{ 'width': item.license }" class="bg-slate-600 h-2.5 rounded-full"></div>
                                     </div>
                                 </td>
                                 <td class="p-4">
@@ -313,7 +313,7 @@
                 name: `Company${i}`,
                 image: generateRandomImage(),
                 site: `company${i}.com`,
-                license: Math.floor(Math.random() * 100) + 1,
+                license: `${Math.floor(Math.random() * 100) + "%"}`,
                 status: i % 2 === 0 ? 'churned' : 'customer',
                 user: Array.from({ length: numberOfUsers }, (_, index) => ({
                     name: generateRandomName(),
