@@ -61,11 +61,16 @@
 
             <div class="mt-5">
                 <div
-                    class="mt-5 overflow-x-auto rounded-md border bg-background scrollbar-thin scrollbar-thumb-input scrollbar-thumb-rounded-md"
+                    class="overflow-x-auto rounded-md border"
                 >
                     <table class="w-full border-1.5">
                         <thead>
                             <tr class="border-b text-left text-xs">
+                                <th class="p-4 font-medium uppercase">
+                                    <button @click="() => selectAll()" >
+                                        <img :src="getSelectedAllStatus()" alt="" class="w-5 h-5" />
+                                    </button>
+                                </th>
                                 <th class="p-4 font-medium uppercase">Company<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
                                 <th class="p-4 font-medium uppercase">License use<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
                                 <th class="p-4 font-medium uppercase">Status<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
@@ -76,14 +81,21 @@
                         </thead>
                         <tbody>
                             <tr v-for="item in paginatedData" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
-                                <td class="p-4 flex space-x-5">
-                                    <img :src="item.image" alt="" class="rounded-full w-10 h-10 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
-                                    <div>
-                                        <div class="font-medium">
-                                            {{ item.name }}
-                                        </div>
+                                <td class="p-4">
+                                    <button @click="() => selectData(item)" >
+                                        <img :src="getSelectedStatus(item)" alt="" class="w-5 h-5" />
+                                    </button>
+                                </td>
+                                <td class="p-4">
+                                    <div class="flex space-x-5">
+                                        <img :src="item.image" alt="" class="rounded-full w-10 h-10 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
                                         <div>
-                                            {{ item.site }}
+                                            <div class="font-medium">
+                                                {{ item.name }}
+                                            </div>
+                                            <div>
+                                                {{ item.site }}
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
@@ -97,36 +109,40 @@
                                         {{ item.status }}
                                     </span>
                                 </td>
-                                <td class="p-4 flex -space-x-2">
-                                    <template v-for="(i, index) in item.user">
-                                        <div 
-                                            v-if="shouldRenderUserComponent(index)"
-                                            @click="() => toggleModal('openModalUser', item.user)"
-                                        >
-                                            <img 
-                                                :key="index" 
-                                                :src="i.image"
-                                                class="hover:cursor-pointer w-6 h-6 object-cover rounded-full border-2 border-white hover:scale-150" 
-                                                alt=""
-                                            />
-                                        </div>
-                                        <div
-                                            v-else-if="index === item.user.length - 1"
-                                            @click="() => toggleModal('openModalUser', item.user)"
-                                        > 
-                                            <div :key="index" class="hover:cursor-pointer w-6 h-6 p-[1px] text-xs font-medium overflow-hidden object-cover rounded-full border-2 bg-slate-200 border-white hover:scale-150" >
-                                                +{{index + 1 - maxRenderedUser}}
+                                <td class="p-4">
+                                    <div class="flex -space-x-2">
+                                        <template v-for="(i, index) in item.user">
+                                            <div 
+                                                v-if="shouldRenderUserComponent(index)"
+                                                @click="() => toggleModal('openModalUser', item.user)"
+                                            >
+                                                <img 
+                                                    :key="index" 
+                                                    :src="i.image"
+                                                    class="hover:cursor-pointer w-6 h-6 object-cover rounded-full border-2 border-white hover:scale-150" 
+                                                    alt=""
+                                                />
                                             </div>
-                                        </div>
-                                    </template>
+                                            <div
+                                                v-else-if="index === item.user.length - 1"
+                                                @click="() => toggleModal('openModalUser', item.user)"
+                                            > 
+                                                <div :key="index" class="hover:cursor-pointer w-6 h-6 p-[1px] text-xs font-medium overflow-hidden object-cover rounded-full border-2 bg-slate-200 border-white hover:scale-150" >
+                                                    +{{index + 1 - maxRenderedUser}}
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
                                 </td>
                                 <td class="p-4 max-w-[350px]">
                                     <div class="font-medium">{{ item?.about?.[0]?.title }}</div>
                                     <div class="overflow-hidden">{{ item?.about?.[0]?.desc }}</div>
                                 </td>
-                                <td class="p-4 flex space-x-8">
-                                    <Icon @click="toggleModal('openModalEdit', [item])" name="heroicons:pencil" class="h-6 w-6 hover:cursor-pointer" />
-                                    <Icon @click="toggleModal('openModalDelete')" name="heroicons:trash" class="h-6 w-6 hover:cursor-pointer" />
+                                <td class="p-4">
+                                    <div class="flex space-x-8">
+                                        <Icon @click="toggleModal('openModalEdit', [item])" name="heroicons:pencil" class="h-6 w-6 hover:cursor-pointer" />
+                                        <Icon @click="toggleModal('openModalDelete')" name="heroicons:trash" class="h-6 w-6 hover:cursor-pointer" />
+                                    </div>
                                 </td>
                             </tr>   
                         </tbody>
@@ -174,7 +190,7 @@
         title="Company User List"
     >
         <div
-            class="mt-5 overflow-x-auto rounded-md border bg-background scrollbar-thin scrollbar-thumb-input scrollbar-thumb-rounded-md"
+            class="mt-5 overflow-x-auto rounded-md border bg-background"
         >
             <table class="w-full border-1.5">
                 <thead>
@@ -184,7 +200,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="item in selectedData" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
+                    <tr v-for="item in showedData" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
                         <td class="p-4 flex space-x-5 w-20">
                             <img :src="item?.image" alt="" class="rounded-full w-10 h-10 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
                         </td>
@@ -203,28 +219,28 @@
     >
         <div class="flex justify-between">
             <div class="flex space-x-4">
-                <img :src="selectedData[0]?.image" alt="" class="rounded-full w-16 h-16 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
+                <img :src="showedData[0]?.image" alt="" class="rounded-full w-16 h-16 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
                 <div>
-                    <div class="font-medium">{{ selectedData[0]?.name }}</div>
-                    <div>{{ selectedData[0]?.site }}</div>
+                    <div class="font-medium">{{ showedData[0]?.name }}</div>
+                    <div>{{ showedData[0]?.site }}</div>
                 </div>
             </div>
             <div>
-                <span :class="getStatusClass(selectedData[0].status)">
-                    {{ selectedData[0].status }}
+                <span :class="getStatusClass(showedData[0].status)">
+                    {{ showedData[0].status }}
                 </span>
             </div>
         </div>
         
         <div class="">
             <div class="font-medium text-secondary">About: </div>
-            <div class="font-medium">{{ selectedData[0]?.about?.[0]?.title }}</div>
-            <div>{{ selectedData[0]?.about?.[0]?.desc }}</div>
+            <div class="font-medium">{{ showedData[0]?.about?.[0]?.title }}</div>
+            <div>{{ showedData[0]?.about?.[0]?.desc }}</div>
         </div>
         <div class="">
             <div class="font-medium text-secondary">Users List: </div>
             <div
-                class=" overflow-x-auto rounded-md border bg-background scrollbar-thin scrollbar-thumb-input scrollbar-thumb-rounded-md"
+                class=" overflow-x-auto rounded-md border bg-background"
             >
                 <table class="w-full border-1.5">
                     <thead>
@@ -234,7 +250,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in selectedData[0].user" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
+                        <tr v-for="item in showedData[0].user" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
                             <td class="p-4 flex space-x-5 w-20">
                                 <img :src="item?.image" alt="" class="rounded-full w-10 h-10 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
                             </td>
@@ -260,6 +276,12 @@
             <button @click="toggleModal('openModalDelete')" class="bg-blue-400 rounded-lg px-4 py-2 w-[50%] font-bold text-white hover:shadow-inner">Yes, delete.</button>
         </div>
     </Popup>
+    
+    <Toast
+        :open="toastTrigger.showToast"
+        :close="() => hideToast('showToast')"
+        :text="toastMessage"
+    />
 </template>
 
 <script setup lang="ts">
@@ -310,6 +332,7 @@
 
             return companyData;
     };
+
     const companyData = generateDummyData();
 
     const modalTrigger = ref({
@@ -318,15 +341,23 @@
         openModalDelete: false
     })
 
-    let selectedData = [];
+    let showedData: any[] = [];
+    
     const toggleModal = (e: any, data?: any) => {
-        selectedData = [];
+        showedData = [];
         modalTrigger.value[e] = !modalTrigger.value[e]
 
         data.map((item: any) => (
-            selectedData.push(item)
+            showedData.push(item)
         ))
-        console.log(selectedData)
+    }
+
+    const showToast = (e: any) => {
+        toastTrigger.value[e] = true
+    }
+
+    const hideToast = (e: any) => {
+        toastTrigger.value[e] = false
     }
 
     const currentPage = ref(1);
@@ -367,4 +398,57 @@
     const shouldRenderUserComponent = (index: any) => {
       return index < maxRenderedUser;
     };
+    
+    const toastTrigger = ref({
+        showToast: false,
+    })
+    const toastMessage = ref(0)
+
+    let selectedData: any[] = []
+    const selectAll = () => {
+        if (selectedData.length > 0) {
+            selectedData = []
+        } else {
+            companyData.map((item: any) => (
+                selectedData.push(item)
+            ))
+        }
+        toastMessage.value = selectedData.length
+    }
+    
+    const selectData = (data: any) => {
+        if (selectedData.includes(data)) {
+            let array = selectedData
+            array = array.filter((item: any) => item !== data)
+            selectedData = array
+        } else {
+            selectedData.push(data)
+        }
+        toastMessage.value = selectedData.length
+    }
+
+    watch(toastMessage, () => {
+        if (toastMessage.value > 0) {
+            showToast("showToast")
+        } else {
+            hideToast("showToast")
+        }
+    })
+
+    const getSelectedStatus = (item: any) => {
+        if (selectedData.includes(item)) {
+            return 'https://api.iconify.design/material-symbols:check-box-outline.svg?color=%234388fe';
+        } else if (!selectedData.includes(item)) {
+            return 'https://api.iconify.design/material-symbols:check-box-outline-blank.svg?color=%23667184';
+        }
+    };
+
+    const getSelectedAllStatus = () => {
+        if (selectedData.length > 0) {
+            return 'https://api.iconify.design/material-symbols:indeterminate-check-box-outline.svg?color=%234388fe';
+        } else {
+            return 'https://api.iconify.design/material-symbols:check-box-outline-blank.svg?color=%23667184';
+        }
+    };
+
 </script>
