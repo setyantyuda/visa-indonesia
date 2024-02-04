@@ -71,12 +71,23 @@
                                         <img :src="getSelectedAllStatus()" alt="" class="w-5 h-5" />
                                     </button>
                                 </th>
-                                <th class="p-4 font-medium uppercase">Company<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
-                                <th class="p-4 font-medium uppercase">License use<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
-                                <th class="p-4 font-medium uppercase">Status<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
-                                <th class="p-4 font-medium uppercase">User<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
-                                <th class="p-4 font-medium uppercase">About<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
-                                <th class="p-4 font-medium uppercase"></th>
+                                <th 
+                                    @click="sortBy('name')" 
+                                    class="hover:cursor-pointer p-4 font-medium uppercase"
+                                >
+                                    Company
+                                    <span>
+                                        <Icon 
+                                            name="heroicons:arrow-up" 
+                                            class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" 
+                                        />
+                                    </span>
+                                </th>
+                                <th @click="sortBy('license')"  class="hover:cursor-pointer p-4 font-medium uppercase">License use<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
+                                <th @click="sortBy('status')" class="hover:cursor-pointer p-4 font-medium uppercase">Status<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
+                                <th class="hover:cursor-pointer p-4 font-medium uppercase">User</th>
+                                <th class="hover:cursor-pointer p-4 font-medium uppercase">About</th>
+                                <th class="hover:cursor-pointer p-4 font-medium uppercase"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -336,10 +347,31 @@
     const companyData = generateDummyData();
 
     const searchQuery = ref('');
+    const sortKey = ref(null);
+    const sortDirection = ref('asc');
 
+    const sortData = (data: any) => {
+        return data.slice().sort((a: any, b: any) => {
+            const aValue = a[sortKey.value];
+            const bValue = b[sortKey.value];
+
+            if (aValue && bValue) {
+                if (sortDirection.value === 'asc') {
+                    return aValue.localeCompare(bValue);
+                } else {
+                    return bValue.localeCompare(aValue);
+                }
+            } else {
+                return 0;
+            }
+        });
+    };
+    
     const filteredCompanyData = computed(() => {
         const query = searchQuery.value.toLowerCase();
-        return companyData.filter(item => item.name.toLowerCase().includes(query));
+        const filteredData = companyData.filter(item => item.name.toLowerCase().includes(query));
+
+        return sortData(filteredData);
     });
 
     const currentPage = ref(1);
@@ -352,6 +384,16 @@
 
         return filteredCompanyData.value.slice(startIndex, endIndex);
     });
+
+    const sortBy = (key: any) => {
+        if (sortKey.value === key) {
+            sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc';
+        } else {
+            sortKey.value = key;
+            sortDirection.value = 'asc';
+        }
+        filteredCompanyData.value = sortData(filteredCompanyData.value);
+    };
 
     const changePage = (page: any) => {
         if (page === 0) {
