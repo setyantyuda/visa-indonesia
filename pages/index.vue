@@ -101,7 +101,7 @@
                                     <template v-for="(i, index) in item.user">
                                         <div 
                                             v-if="shouldRenderUserComponent(index)"
-                                            @click="() => toggleModal('openModalUser')"
+                                            @click="() => toggleModal('openModalUser', item.user)"
                                         >
                                             <img 
                                                 :key="index" 
@@ -112,7 +112,7 @@
                                         </div>
                                         <div
                                             v-else-if="index === item.user.length - 1"
-                                            @click="() => toggleModal('openModalUser')"
+                                            @click="() => toggleModal('openModalUser', item.user)"
                                         > 
                                             <div :key="index" class="hover:cursor-pointer w-6 h-6 p-[1px] text-xs font-medium overflow-hidden object-cover rounded-full border-2 bg-slate-200 border-white hover:scale-150" >
                                                 +{{index + 1 - maxRenderedUser}}
@@ -125,7 +125,7 @@
                                     <div class="overflow-hidden">{{ item?.about?.[0]?.desc }}</div>
                                 </td>
                                 <td class="p-4 flex space-x-8">
-                                    <Icon @click="toggleModal('openModalEdit')" name="heroicons:pencil" class="h-6 w-6 hover:cursor-pointer" />
+                                    <Icon @click="toggleModal('openModalEdit', [item])" name="heroicons:pencil" class="h-6 w-6 hover:cursor-pointer" />
                                     <Icon @click="toggleModal('openModalDelete')" name="heroicons:trash" class="h-6 w-6 hover:cursor-pointer" />
                                 </td>
                             </tr>   
@@ -173,21 +173,92 @@
         :toggleModal="() => toggleModal('openModalUser')"
         title="Company User List"
     >
-        <h1>Popup</h1>
+        <div
+            class="mt-5 overflow-x-auto rounded-md border bg-background scrollbar-thin scrollbar-thumb-input scrollbar-thumb-rounded-md"
+        >
+            <table class="w-full border-1.5">
+                <thead>
+                    <tr class="border-b text-left text-xs">
+                        <th class="p-4 font-medium uppercase w-20">Image</th>
+                        <th class="p-4 font-medium uppercase">Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in selectedData" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
+                        <td class="p-4 flex space-x-5 w-20">
+                            <img :src="item?.image" alt="" class="rounded-full w-10 h-10 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
+                        </td>
+                        <td class="p-4">
+                            <div class="font-medium">{{ item?.name }}</div>
+                        </td>
+                    </tr>   
+                </tbody>
+            </table>
+        </div>
     </Popup>
     <Popup 
         v-if="modalTrigger.openModalEdit" 
         :toggleModal="() => toggleModal('openModalEdit')"
         title="Edit Company Detail"
     >
-        <h1>Popup</h1>
+        <div class="flex justify-between">
+            <div class="flex space-x-4">
+                <img :src="selectedData[0]?.image" alt="" class="rounded-full w-16 h-16 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
+                <div>
+                    <div class="font-medium">{{ selectedData[0]?.name }}</div>
+                    <div>{{ selectedData[0]?.site }}</div>
+                </div>
+            </div>
+            <div>
+                <span :class="getStatusClass(selectedData[0].status)">
+                    {{ selectedData[0].status }}
+                </span>
+            </div>
+        </div>
+        
+        <div class="">
+            <div class="font-medium text-secondary">About: </div>
+            <div class="font-medium">{{ selectedData[0]?.about?.[0]?.title }}</div>
+            <div>{{ selectedData[0]?.about?.[0]?.desc }}</div>
+        </div>
+        <div class="">
+            <div class="font-medium text-secondary">Users List: </div>
+            <div
+                class=" overflow-x-auto rounded-md border bg-background scrollbar-thin scrollbar-thumb-input scrollbar-thumb-rounded-md"
+            >
+                <table class="w-full border-1.5">
+                    <thead>
+                        <tr class="border-b text-left text-xs">
+                            <th class="p-4 font-medium uppercase w-20">Image</th>
+                            <th class="p-4 font-medium uppercase">Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in selectedData[0].user" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
+                            <td class="p-4 flex space-x-5 w-20">
+                                <img :src="item?.image" alt="" class="rounded-full w-10 h-10 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
+                            </td>
+                            <td class="p-4">
+                                <div class="font-medium">{{ item?.name }}</div>
+                            </td>
+                        </tr>   
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </Popup>
     <Popup 
         v-if="modalTrigger.openModalDelete" 
         :toggleModal="() => toggleModal('openModalDelete')"
-        title="Delete Company"
     >
-        <h1>Popup</h1>
+        <div class="w-full flex justify-center">
+            <img src="/question.png" alt="" class="w-32 h-32 object-cover"/>
+        </div>
+        <div class="text-center">Are you sure want to delete this company?</div>
+        <div class="flex w-full justify-between space-x-5">
+            <button @click="toggleModal('openModalDelete')" class="bg-red-400 rounded-lg px-4 py-2 w-[50%] font-bold text-white hover:shadow-inner">No.</button>
+            <button @click="toggleModal('openModalDelete')" class="bg-blue-400 rounded-lg px-4 py-2 w-[50%] font-bold text-white hover:shadow-inner">Yes, delete.</button>
+        </div>
     </Popup>
 </template>
 
@@ -228,7 +299,7 @@
                 })),
                 about: [
                 {
-                    title: 'Lorem Ipsum Title',
+                    title: 'Lorem Ipsum',
                     desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 },
                 ],
@@ -246,8 +317,16 @@
         openModalEdit: false,
         openModalDelete: false
     })
-    const toggleModal = (e: boolean) => {
+
+    let selectedData = [];
+    const toggleModal = (e: any, data?: any) => {
+        selectedData = [];
         modalTrigger.value[e] = !modalTrigger.value[e]
+
+        data.map((item: any) => (
+            selectedData.push(item)
+        ))
+        console.log(selectedData)
     }
 
     const currentPage = ref(1);
