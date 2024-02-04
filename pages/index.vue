@@ -55,7 +55,7 @@
                         alt=""
                     />
                     <span class="text-secondary border-r-2 pr-3">Search</span>
-                    <input class="outline-none" placeholder="type here..."/>
+                    <input v-model="searchQuery" class="outline-none" placeholder="type here..."/>
                 </div>
             </div>
 
@@ -233,12 +233,12 @@
         </div>
         
         <div class="">
-            <div class="font-medium text-secondary">About: </div>
+            <div class="font-medium text-secondary mb-2">About: </div>
             <div class="font-medium">{{ showedData[0]?.about?.[0]?.title }}</div>
             <div>{{ showedData[0]?.about?.[0]?.desc }}</div>
         </div>
         <div class="">
-            <div class="font-medium text-secondary">Users List: </div>
+            <div class="font-medium text-secondary mb-2">Users List: </div>
             <div
                 class=" overflow-x-auto rounded-md border bg-background"
             >
@@ -335,6 +335,34 @@
 
     const companyData = generateDummyData();
 
+    const searchQuery = ref('');
+
+    const filteredCompanyData = computed(() => {
+        const query = searchQuery.value.toLowerCase();
+        return companyData.filter(item => item.name.toLowerCase().includes(query));
+    });
+
+    const currentPage = ref(1);
+    const pageSize = 10
+    let totalPage = computed(() => Math.ceil(filteredCompanyData.value.length / pageSize));
+    
+    const paginatedData = computed(() => {
+        const startIndex = (currentPage.value - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+
+        return filteredCompanyData.value.slice(startIndex, endIndex);
+    });
+
+    const changePage = (page: any) => {
+        if (page === 0) {
+            currentPage.value = 1
+        } else if (page === totalPage.value + 1) {
+            currentPage.value === totalPage.value
+        } else {
+            currentPage.value = page
+        }
+    }
+
     const modalTrigger = ref({
         openModalUser: false,
         openModalEdit: false,
@@ -358,26 +386,6 @@
 
     const hideToast = (e: any) => {
         toastTrigger.value[e] = false
-    }
-
-    const currentPage = ref(1);
-    const pageSize = 10
-    const totalPage = companyData.length / pageSize
-    const paginatedData = computed(() => {
-        const startIndex = (currentPage.value - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-
-        return companyData.slice(startIndex, endIndex);
-    });
-
-    const changePage = (page: any) => {
-        if ( page === 0) {
-            currentPage.value = 1
-        } else if (page === totalPage + 1) {
-            currentPage.value === totalPage
-        } else {
-            currentPage.value = page
-        }
     }
 
     const getStatusClass = (status: any) => {
@@ -405,6 +413,7 @@
     const toastMessage = ref(0)
 
     let selectedData: any[] = []
+
     const selectAll = () => {
         if (selectedData.length > 0) {
             selectedData = []
