@@ -2,49 +2,12 @@
     <div class="overflow-y-auto bg-white rounded-tl-3xl w-full px-10 py-12 mt-7">
         <div class="font-bold text-3xl">Welcome back, Administrator!</div>
         <div class="text-secondary">Track, manage and forecast your platform informative here.</div>
-        <div class="space-y-6 mt-8">
-            <div class="grid grid-cols-3 justify-between gap-4">
-                <div class="border-2 rounded-lg p-5">
-                    <div class="flex justify-between">
-                        <div class="font-semibold text-lg">Revenue in Percentage</div>
-                        <img 
-                            src="https://api.iconify.design/iconamoon:menu-kebab-vertical-fill.svg?color=%23667184"
-                            class="w-6 h-6 hover:cursor-pointer"
-                            alt=""
-                        />
-                    </div>
-                    <div class="text-secondary font-semibold">
-                        <div class="flex space-x-1">
-                            <img src="https://api.iconify.design/iconamoon:arrow-up-1-bold.svg?color=%2312c17c" alt="" />
-                            <div class="text-[#12c17c]">40%</div> 
-                            <div>vs last month</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-2 rounded-lg p-5">
-                    <div class="flex justify-between">
-                        <div class="font-semibold text-lg">Total Order</div>
-                        <img 
-                            src="/book.png"
-                            class="bg-white w-12 h-12 object-cover"
-                            alt=""
-                        />
-                    </div>
-                    <div class="font-bold text-3xl">400 Orders</div>
-                </div>
-                <div class="border-2 rounded-lg p-5">
-                    <div class="flex justify-between">
-                        <div class="font-semibold text-lg">Pending Customer</div>
-                        <img 
-                            src="/email.png"
-                            class="bg-white w-12 h-12 object-cover"
-                            alt=""
-                        />
-                    </div>
-                    <div class="font-bold text-3xl">20 Customer</div>
-                </div>
-            </div>
 
+        <div class="space-y-6 mt-8">
+
+            <DashboardCard/>
+            
+            <!-- search bar -->
             <div class="grid grid-cols-3 gap-5">
                 <div></div>
                 <div></div>
@@ -59,6 +22,7 @@
                 </div>
             </div>
 
+            <!-- data table -->
             <div class="mt-5">
                 <div
                     class="overflow-x-auto rounded-md border"
@@ -158,43 +122,17 @@
                             </tr>   
                         </tbody>
                     </table>
-                    <div class="flex justify-between w-full">
-                        <div class="p-4 font-medium text-secondary my-auto">
-                            Page {{ currentPage }} of {{ totalPage }}
-                        </div>
-                        <div class="p-4 flex">
-                            <div @click="changePage(currentPage - 1)" class="border hover:bg-slate-200 hover:cursor-pointer rounded-l-md w-9 h-9 text-center flex justify-center">
-                                <Icon name="heroicons:arrow-left" class="h-6 w-6 my-auto" />
-                            </div>
-                            <template v-for="(item, index) in totalPage">
-                                <div
-                                    :key="index"
-                                    @click="changePage(item)"
-                                    v-if="shouldRenderComponent(index, totalPage)"
-                                    class="border hover:bg-slate-200 hover:cursor-pointer w-9 h-9 font-medium text-center flex justify-center"
-                                >
-                                    <div class="my-auto">
-                                        {{ item }}
-                                    </div>
-                                </div>
-                                <div
-                                    v-else-if="index === Math.floor(totalPage / 2)"
-                                    class="border hover:bg-slate-200 w-9 h-9 font-medium text-center flex justify-center"
-                                >
-                                    <div class="my-auto">
-                                        ...
-                                    </div>
-                                </div>
-                            </template>
-                            <div @click="changePage(currentPage + 1)" class="border hover:bg-slate-200 hover:cursor-pointer rounded-r-md w-9 h-9 text-center flex justify-center">
-                                <Icon name="heroicons:arrow-right" class="h-6 w-6 my-auto" />
-                            </div>
-                        </div>
-                    </div>
+
+                    <Pagination :currentPage="currentPage" :totalPage="totalPage" :changePage="changePage" />
+                    
                 </div>
             </div>
         </div>
     </div>
+    
+    <!-- all popup modal -->
+
+    <!-- modal userlist -->
     <Popup 
         v-if="modalTrigger.openModalUser" 
         :toggleModal="() => toggleModal('openModalUser')"
@@ -223,6 +161,8 @@
             </table>
         </div>
     </Popup>
+
+    <!-- detail edit modal -->
     <Popup 
         v-if="modalTrigger.openModalEdit" 
         :toggleModal="() => toggleModal('openModalEdit')"
@@ -274,6 +214,8 @@
             </div>
         </div>
     </Popup>
+
+    <!-- delete user modal -->
     <Popup 
         v-if="modalTrigger.openModalDelete" 
         :toggleModal="() => toggleModal('openModalDelete')"
@@ -288,6 +230,7 @@
         </div>
     </Popup>
     
+    <!-- toast component -->
     <Toast
         :open="toastTrigger.showToast"
         :close="() => hideToast('showToast')"
@@ -296,6 +239,7 @@
 </template>
 
 <script setup lang="ts">
+    // list of data
     const generateRandomName = () => {
         const names = ['John', 'Jane', 'Alex', 'Anna', 'Bob', 'Charlie', 'David', 'Emma', 'Frank', 'Grace'];
         return names[Math.floor(Math.random() * names.length)];
@@ -346,6 +290,7 @@
 
     const companyData = generateDummyData();
 
+    // search, sorting, and pagination
     const searchQuery = ref('');
     const sortKey = ref(null);
     const sortDirection = ref('asc');
@@ -405,6 +350,7 @@
         }
     }
 
+    // modal handler
     const modalTrigger = ref({
         openModalUser: false,
         openModalEdit: false,
@@ -422,6 +368,13 @@
         ))
     }
 
+    // toast handler
+    const toastTrigger = ref({
+        showToast: false,
+    })
+
+    const toastMessage = ref(0)
+
     const showToast = (e: any) => {
         toastTrigger.value[e] = true
     }
@@ -430,6 +383,15 @@
         toastTrigger.value[e] = false
     }
 
+    watch(toastMessage, () => {
+        if (toastMessage.value > 0) {
+            showToast("showToast")
+        } else {
+            hideToast("showToast")
+        }
+    })
+
+    // data table status class handler
     const getStatusClass = (status: any) => {
         if (status === 'customer') {
             return 'bg-green-200/60 rounded-lg py-0.5 px-4 font-medium capitalize';
@@ -440,20 +402,13 @@
         }
     };
 
-    const shouldRenderComponent = (index: any, length: any) => {
-      return index < 3 || index >= length - 3;
-    };
-
+    // rendered user in table
     const maxRenderedUser = 5
     const shouldRenderUserComponent = (index: any) => {
-      return index < maxRenderedUser;
+        return index < maxRenderedUser;
     };
-    
-    const toastTrigger = ref({
-        showToast: false,
-    })
-    const toastMessage = ref(0)
 
+    // select data handler
     let selectedData: any[] = []
 
     const selectAll = () => {
@@ -478,14 +433,7 @@
         toastMessage.value = selectedData.length
     }
 
-    watch(toastMessage, () => {
-        if (toastMessage.value > 0) {
-            showToast("showToast")
-        } else {
-            hideToast("showToast")
-        }
-    })
-
+    // handler icon selection checkbox
     const getSelectedStatus = (item: any) => {
         if (selectedData.includes(item)) {
             return 'https://api.iconify.design/material-symbols:check-box-outline.svg?color=%234388fe';
@@ -501,5 +449,4 @@
             return 'https://api.iconify.design/material-symbols:check-box-outline-blank.svg?color=%23667184';
         }
     };
-
 </script>
