@@ -27,18 +27,27 @@
             <div>admin@spdigital.com</div>
           </div>
         </div>
-        <NuxtLink
-          to="/"
-          class="flex"
-        >
-          <img 
-            src="https://api.iconify.design/ic:baseline-logout.svg?color=%23ffffff" 
-            alt="" 
-            class="w-8 h-8 bg-primary hover:bg-[#344155] rounded-md p-1 my-auto"
-          />
-        </NuxtLink>
+        <img 
+          @click="toggleModal('openModalLogout')"
+          src="https://api.iconify.design/ic:baseline-logout.svg?color=%23ffffff" 
+          alt="" 
+          class="w-8 h-8 bg-primary hover:bg-[#344155] rounded-md p-1 my-auto"
+        />
       </div>
     </div>
+    <Popup 
+      v-if="modalTrigger.openModalLogout" 
+      :toggleModal="() => toggleModal('openModalLogout')"
+    >
+      <div class="w-full flex justify-center">
+        <img src="/question.png" alt="" class="w-32 h-32 object-cover"/>
+      </div>
+      <div class="text-center">Are you sure want to logout?</div>
+      <div class="flex w-full justify-between space-x-5">
+        <button @click="toggleModal('openModalLogout')" class="bg-red-400 rounded-lg px-4 py-2 w-[50%] font-bold text-white hover:shadow-inner">No.</button>
+        <button @click="toggleModal('openModalLogout')" class="bg-blue-400 rounded-lg px-4 py-2 w-[50%] font-bold text-white hover:shadow-inner">Yes, logout.</button>
+      </div>
+    </Popup>
   </aside>
 </template>
   
@@ -73,4 +82,12 @@
       icon: "https://api.iconify.design/bx:user.svg?color=%23ffffff",
     },
   ];
+
+  const modalTrigger = ref({
+    openModalLogout: false,
+  })
+
+  const toggleModal = (e: any) => {
+    modalTrigger.value[e] = !modalTrigger.value[e]
+  }
 </script>
