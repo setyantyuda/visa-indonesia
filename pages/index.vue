@@ -1,6 +1,6 @@
 <template>
-    <div class="font-bold text-3xl">Welcome back, Administrator!</div>
-    <div class="text-secondary">Track, manage and forecast your platform informative here.</div>
+    <div class="font-bold md:text-3xl text-2xl">Welcome back, Administrator!</div>
+    <div class="text-secondary md:text-base text-sm">Track, manage and forecast your platform informative here.</div>
 
     <div class="space-y-6 mt-8">
 
@@ -9,7 +9,7 @@
         <!-- search bar -->
         <div class="flex">
             <div class="flex-grow"></div>
-            <div class="border-2 rounded-md p-2 flex space-x-3 min-w-[300px]">
+            <div class="border-2 rounded-md p-2 flex space-x-3 md:min-w-[300px] md:w-auto w-full">
                 <img 
                     src="https://api.iconify.design/iconamoon:search-bold.svg?color=%23667184"
                     class="w-6 h-6 object-cover"
@@ -77,12 +77,12 @@
                     <tbody>
                         <tr v-for="(item, index) in paginatedData" :key="index" class="border-b hover:bg-slate-100 text-left text-sm last:border-b-0 hover:bg-muted">
                             <td class="p-4">
-                                <button @click="() => selectData(item)" >
+                                <button class="w-5" @click="() => selectData(item)" >
                                     <img :src="getSelectedStatus(item)" alt="" class="w-5 h-5" />
                                 </button>
                             </td>
                             <td class="p-4">
-                                <div class="flex space-x-5">
+                                <div class="flex space-x-5 min-w-44">
                                     <img :src="item.image" alt="" class="rounded-full w-10 h-10 hover:scale-150 shadow-none transition-all duration-300 object-cover" />
                                     <div>
                                         <div class="font-semibold">
@@ -95,7 +95,7 @@
                                 </div>
                             </td>
                             <td class="p-4">
-                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="w-full bg-gray-200 rounded-full h-2.5 min-w-28">
                                     <div :style="{ 'width': item.license }" class="bg-slate-600 h-2.5 rounded-full"></div>
                                 </div>
                             </td>
@@ -105,7 +105,7 @@
                                 </span>
                             </td>
                             <td class="p-4">
-                                <div class="flex -space-x-2">
+                                <div class="flex -space-x-2 min-w-24">
                                     <template v-for="(i, index) in item.user">
                                         <div 
                                             v-if="shouldRenderUserComponent(index)"
@@ -129,9 +129,11 @@
                                     </template>
                                 </div>
                             </td>
-                            <td class="p-4 max-w-[350px]">
-                                <div class="tracking-wide">{{ item?.about?.[0]?.title }}</div>
-                                <div class="overflow-hidden font-light text-secondary">{{ item?.about?.[0]?.desc }}</div>
+                            <td class="p-4">
+                                <div class="w-[350px] overflow-auto">
+                                    <div class="tracking-wide">{{ item?.about?.[0]?.title }}</div>
+                                    <div class="overflow-hidden font-light text-secondary">{{ item?.about?.[0]?.desc }}</div>
+                                </div>
                             </td>
                             <td class="p-4">
                                 <div class="flex space-x-8">

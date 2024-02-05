@@ -3,15 +3,23 @@
     <div
       class="flex h-full w-full flex-col gap-5 overflow-y-auto text-white p-5"
     >
+      <div class="flex justify-end">
+        <img
+          src="https://api.iconify.design/mdi:close-thick.svg?color=%23ffffff"
+          alt=""
+          class="h-8 w-8 border-2 rounded-full p-1 md:hidden block`"
+          @click="() => handleShow()"
+        />
+      </div>
       <NuxtLink
         to="/"
       >
-        <div class="text-3xl font-bold">
-            Visa Indonesia
+        <div class="md:text-3xl text-2xl font-bold">
+          Visa Indonesia
         </div>
       </NuxtLink>
 
-      <SidebarItem :links="menu" />
+      <SidebarItem :links="menu" @click="() => handleShow()" />
 
       <div class="mt-auto border-t pt-4 border-slate-200/50 flex justify-between">
         <div class="flex space-x-3">
@@ -52,6 +60,9 @@
 </template>
   
 <script setup lang="ts">
+  const {handleShow} = defineProps<{
+    handleShow?: any,
+  }>();
   const menu = [
     {
       title: "Dashboard",

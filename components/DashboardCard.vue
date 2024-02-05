@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-3 justify-between gap-4">
+    <div class="md:grid grid-cols-3 md:space-y-0 space-y-3 justify-between gap-4">
         <div class="border-2 rounded-lg p-5">
             <div class="flex justify-between">
                 <div class="text-lg">Revenue in Percentage</div>
@@ -44,14 +44,14 @@
             :icon="'/book.png'"
         >
             <div class="flex-grow"></div>
-            <div class="font-bold text-3xl">400 Orders</div>
+            <div class="font-bold md:text-3xl text-xl">400 Orders</div>
         </Card>
         <Card 
             :title="'Pending Customer'" 
             :icon="'/email.png'"
         >
             <div class="flex-grow"></div>
-            <div class="font-bold text-3xl">20 Customer</div>
+            <div class="font-bold md:text-3xl text-xl">20 Customer</div>
         </Card>
     </div>
 </template>

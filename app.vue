@@ -1,13 +1,27 @@
 <template>
-  <div class="bg-primary w-full flex h-screen">
-    <Sidebar class="sticky hidden h-screen bg-primary w-[25%] lg:block" />
+  <div class="bg-primary w-full relative md:flex md:h-screen">
+    <Sidebar :handleShow="() => handleShow()" :class="`${mobileNav === true ? 'left-0' : '-left-96' } md:sticky fixed transition-all duration-500 h-screen bg-primary md:w-[25%] blcok'`" />
+    <div class="flex md:hidden p-4">
+      <img
+        src="https://api.iconify.design/tabler:menu-2.svg?color=%23ffffff"
+        alt=""
+        class="h-8 w-8 border-2 rounded-full p-1"
+        @click="() => handleShow()"
+      />
+    </div>
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
   </div>
 </template>
+
 <script setup lang="ts">
   useHead({
     title: 'Visa Indonesia',
   })
+
+  const mobileNav = ref(false)
+  const handleShow = () => {
+    mobileNav.value = !mobileNav.value
+  }
 </script>
