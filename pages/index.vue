@@ -16,7 +16,7 @@
                     alt=""
                 />
                 <span class="text-secondary border-r-2 pr-3">Search</span>
-                <input v-model="searchQuery" class="outline-none" placeholder="type here..."/>
+                <input v-model="searchQuery" class="outline-none w-full" placeholder="type here..."/>
             </div>
         </div>
 
