@@ -3,6 +3,8 @@
         <div class="border-2 rounded-lg p-5">
             <div class="flex justify-between">
                 <div class="text-lg">Revenue in Percentage</div>
+                
+                <!-- menu dropdown -->
                 <div class="relative">
                     <img 
                         @click="toggleDropdown('openDropdown')"

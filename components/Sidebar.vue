@@ -43,6 +43,8 @@
         />
       </div>
     </div>
+
+    <!-- modal window for logout -->
     <Popup 
       v-if="modalTrigger.openModalLogout" 
       :toggleModal="() => toggleModal('openModalLogout')"

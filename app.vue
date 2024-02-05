@@ -1,7 +1,12 @@
 <template>
-  <div class="bg-primary w-full relative md:flex md:h-screen">
-    <Sidebar :handleShow="() => handleShow()" :class="`${mobileNav === true ? 'left-0' : '-left-96' } md:sticky fixed transition-all duration-500 h-screen bg-primary md:w-[25%] blcok'`" />
-    <div class="flex md:hidden p-4">
+  <div class="bg-primary w-full relative md:flex h-screen overflow-hidden">
+    <Sidebar 
+      :handleShow="() => handleShow()" 
+      :class="`${mobileNav === true ? 'left-0' : '-left-96' } md:sticky fixed transition-all duration-500 h-screen bg-primary md:w-[25%] blcok'`"
+    />
+    
+    <!-- icon for show mobile navbar -->
+    <div class="flex md:hidden px-4 py-3 mb-1">
       <img
         src="https://api.iconify.design/tabler:menu-2.svg?color=%23ffffff"
         alt=""
@@ -9,6 +14,7 @@
         @click="() => handleShow()"
       />
     </div>
+
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
