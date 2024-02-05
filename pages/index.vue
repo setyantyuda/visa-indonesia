@@ -145,8 +145,8 @@
                     </tbody>
                 </table>
 
-                <Pagination :currentPage="currentPage" :totalPage="totalPage" :changePage="changePage" /> 
             </div>
+            <Pagination :currentPage="currentPage" :totalPage="totalPage" :changePage="changePage" /> 
         </div>
 
     </div>

@@ -1,6 +1,6 @@
 <template>
     <div class="md:flex justify-between w-full">
-        <div class="p-4 text-secondary my-auto">
+        <div class="pt-4 text-secondary my-auto lg:text-left text-center">
             Page {{ currentPage }} of {{ totalPage }}
         </div>
         <div class="p-4 flex">
