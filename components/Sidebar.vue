@@ -3,18 +3,18 @@
     <div
       class="flex h-full w-full flex-col gap-5 overflow-y-auto text-white p-5"
     >
-      <div class="flex justify-end">
+      <div class="flex justify-end lg:hidden">
         <img
           src="https://api.iconify.design/mdi:close-thick.svg?color=%23ffffff"
           alt=""
-          class="h-8 w-8 border-2 rounded-full p-1 md:hidden block`"
+          class="h-8 w-8 border-2 rounded-full p-1`"
           @click="() => handleShow()"
         />
       </div>
       <NuxtLink
         to="/"
       >
-        <div class="md:text-3xl text-2xl font-bold">
+        <div class="lg:text-3xl text-2xl font-bold">
           Visa Indonesia
         </div>
       </NuxtLink>

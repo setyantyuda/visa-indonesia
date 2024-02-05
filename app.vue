@@ -1,12 +1,12 @@
 <template>
-  <div class="bg-primary w-full relative md:flex h-screen min-h-screen overflow-y-scroll">
+  <div class="bg-primary h-full lg:h-screen lg:flex">
     <Sidebar 
       :handleShow="() => handleShow()" 
-      :class="`${mobileNav === true ? 'left-0' : '-left-96' } md:sticky z-50 fixed transition-all duration-500 h-screen bg-primary md:w-[25%]'`"
+      :class="`${mobileNav === true ? 'left-0' : '-left-96' } lg:sticky z-50 lg:w-full fixed transition-all duration-500 h-full bg-primary lg:w-[25%]'`"
     />
     
     <!-- icon for show mobile navbar -->
-    <div class="flex md:hidden px-4 py-3 mb-1">
+    <div class="sticky z-40 flex lg:hidden px-4 py-3">
       <img
         src="https://api.iconify.design/tabler:menu-2.svg?color=%23ffffff"
         alt=""

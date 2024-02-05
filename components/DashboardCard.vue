@@ -28,10 +28,12 @@
             <div class="flex justify-between">
                 <div class="text-secondary flex flex-col">
                     <div class="flex-grow"></div>
-                    <div class="flex space-x-1">
-                        <img v-if="selectedData[0]?.type === 'increase'" src="https://api.iconify.design/iconamoon:arrow-up-1-bold.svg?color=%2312c17c" alt="" />
-                        <img v-if="selectedData[0]?.type === 'decrease'" src="https://api.iconify.design/iconamoon:arrow-down-1-bold.svg?color=%23fd3581" alt="" />
-                        <div :class="`${selectedData[0]?.type === 'increase' ? 'text-[#12c17c] font-semibold' : 'text-[#fd3581] font-semibold'}`">{{ selectedData[0]?.data }}</div> 
+                    <div class="lg:flex space-x-1">
+                        <div class="flex">
+                            <img v-if="selectedData[0]?.type === 'increase'" src="https://api.iconify.design/iconamoon:arrow-up-1-bold.svg?color=%2312c17c" alt="" />
+                            <img v-if="selectedData[0]?.type === 'decrease'" src="https://api.iconify.design/iconamoon:arrow-down-1-bold.svg?color=%23fd3581" alt="" />
+                            <div :class="`${selectedData[0]?.type === 'increase' ? 'text-[#12c17c] font-semibold' : 'text-[#fd3581] font-semibold'}`">{{ selectedData[0]?.data }}</div> 
+                        </div>
                         <div>vs last {{ selectedData[0]?.time }}</div>
                     </div>
                 </div>
@@ -46,14 +48,14 @@
             :icon="'/book.png'"
         >
             <div class="flex-grow"></div>
-            <div class="font-bold md:text-3xl text-xl">400 Orders</div>
+            <div class="font-bold lg:text-3xl text-xl">400 Orders</div>
         </Card>
         <Card 
             :title="'Pending Customer'" 
             :icon="'/email.png'"
         >
             <div class="flex-grow"></div>
-            <div class="font-bold md:text-3xl text-xl">20 Customer</div>
+            <div class="font-bold lg:text-3xl text-xl">20 Customer</div>
         </Card>
     </div>
 </template>
