@@ -2,7 +2,7 @@
   <div class="bg-primary w-full relative md:flex h-screen overflow-hidden">
     <Sidebar 
       :handleShow="() => handleShow()" 
-      :class="`${mobileNav === true ? 'left-0' : '-left-96' } md:sticky z-50 fixed transition-all duration-500 h-screen bg-primary md:w-[25%] blcok'`"
+      :class="`${mobileNav === true ? 'left-0' : '-left-96' } md:sticky z-50 fixed transition-all duration-500 h-screen bg-primary md:w-[25%] block'`"
     />
     
     <!-- icon for show mobile navbar -->
