@@ -16,10 +16,10 @@
                                 <Icon name="heroicons:x-mark" class="h-5 w-5 my-auto" />
                             </button>
                         </div>
-                        <div @click="selected('year')" class="hover:bg-slate-200 rounded-md px-1 py-1 cursor-pointer border-b-2">compare to last year</div>
-                        <div @click="selected('month')" class="hover:bg-slate-200 rounded-md px-1 py-1 cursor-pointer border-b-2">compare to last month</div>
-                        <div @click="selected('week')" class="hover:bg-slate-200 rounded-md px-1 py-1 cursor-pointer border-b-2">compare to last week</div>
-                        <div @click="selected('day')" class="hover:bg-slate-200 rounded-md px-1 py-1 cursor-pointer">compare to last day</div>
+                        <div @click="selected('year')" class="hover:bg-slate-200 px-2 py-1 text-sm cursor-pointer border-b-2">compare to last year</div>
+                        <div @click="selected('month')" class="hover:bg-slate-200 px-2 py-1 text-sm cursor-pointer border-b-2">compare to last month</div>
+                        <div @click="selected('week')" class="hover:bg-slate-200 px-2 py-1 text-sm cursor-pointer border-b-2">compare to last week</div>
+                        <div @click="selected('day')" class="hover:bg-slate-200 px-2 py-1 text-sm cursor-pointer">compare to last day</div>
                     </div>
                 </div>
             </div>
