@@ -26,6 +26,10 @@
     title: 'Visa Indonesia',
   })
 
+  // ignore warning to clean console.log
+  console.warn = () => {};
+
+  // mobile nav logic
   const mobileNav = ref(false)
   const handleShow = () => {
     mobileNav.value = !mobileNav.value

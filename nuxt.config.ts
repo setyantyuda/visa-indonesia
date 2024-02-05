@@ -16,6 +16,11 @@ export default({
       autoprefixer: {},
     },
   },
+  build: {
+    babel: {
+      plugins: [['@babel/plugin-transform-runtime', { corejs: 3 }]],
+    },
+  },
 
   modules: ['nuxt-icon'],
 })
