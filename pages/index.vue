@@ -7,10 +7,9 @@
         <DashboardCard/>
         
         <!-- search bar -->
-        <div class="grid grid-cols-3 gap-5">
-            <div></div>
-            <div></div>
-            <div class="border-2 rounded-md p-2 flex space-x-3">
+        <div class="flex">
+            <div class="flex-grow"></div>
+            <div class="border-2 rounded-md p-2 flex space-x-3 min-w-[300px]">
                 <img 
                     src="https://api.iconify.design/iconamoon:search-bold.svg?color=%23667184"
                     class="w-6 h-6 object-cover"
@@ -42,12 +41,34 @@
                                 <span>
                                     <Icon 
                                         name="heroicons:arrow-up" 
-                                        class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" 
+                                        :class="`${sortDirection === 'asc' && sortKey === 'name' ? 'rotate-180' : ''} h-4 w-4 ml-2 transition-all duration-200 bg-slate-300 rounded-full p-0.5`"
                                     />
                                 </span>
                             </th>
-                            <th @click="sortBy('license')"  class="hover:cursor-pointer p-4 font-normal text-secondary">License use<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
-                            <th @click="sortBy('status')" class="hover:cursor-pointer p-4 font-normal text-secondary">Status<span><Icon name="heroicons:arrow-up" class="h-4 w-4 ml-2 hover:rotate-180 transition-all duration-200 bg-slate-300 rounded-full p-0.5" /></span></th>
+                            <th 
+                                @click="sortBy('license')" 
+                                class="hover:cursor-pointer p-4 font-normal text-secondary"
+                            >
+                                License use
+                                <span>
+                                    <Icon 
+                                        name="heroicons:arrow-up" 
+                                        :class="`${sortDirection === 'asc' && sortKey === 'license' ? 'rotate-180' : ''} h-4 w-4 ml-2 transition-all duration-200 bg-slate-300 rounded-full p-0.5`"
+                                    />
+                                </span>
+                            </th>
+                            <th 
+                                @click="sortBy('status')"
+                                class="hover:cursor-pointer p-4 font-normal text-secondary"
+                            >
+                                Status
+                                <span>
+                                    <Icon 
+                                        name="heroicons:arrow-up" 
+                                        :class="`${sortDirection === 'asc' && sortKey === 'status' ? 'rotate-180' : ''} h-4 w-4 ml-2 transition-all duration-200 bg-slate-300 rounded-full p-0.5`"
+                                    />
+                                </span>
+                            </th>
                             <th class="hover:cursor-pointer p-4 font-normal text-secondary">User</th>
                             <th class="hover:cursor-pointer p-4 font-normal text-secondary">About</th>
                             <th class="hover:cursor-pointer p-4 font-normal text-secondary"></th>
