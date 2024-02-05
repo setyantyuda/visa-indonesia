@@ -38,30 +38,21 @@
                 </div>
             </div>
         </div>
-        <div class="border-2 rounded-lg p-5 flex-col flex">
-            <div class="flex justify-between">
-                <div class="text-lg">Total Order</div>
-                <img 
-                    src="/book.png"
-                    class="bg-white w-12 h-12 object-cover"
-                    alt=""
-                />
-            </div>
+
+        <Card 
+            :title="'Total Order'" 
+            :icon="'/book.png'"
+        >
             <div class="flex-grow"></div>
             <div class="font-bold text-3xl">400 Orders</div>
-        </div>
-        <div class="border-2 rounded-lg p-5 flex flex-col">
-            <div class="flex justify-between">
-                <div class="text-lg">Pending Customer</div>
-                <img 
-                    src="/email.png"
-                    class="bg-white w-12 h-12 object-cover"
-                    alt=""
-                />
-            </div>
+        </Card>
+        <Card 
+            :title="'Pending Customer'" 
+            :icon="'/email.png'"
+        >
             <div class="flex-grow"></div>
             <div class="font-bold text-3xl">20 Customer</div>
-        </div>
+        </Card>
     </div>
 </template>
 

@@ -14,7 +14,7 @@
       <SidebarItem :links="menu" />
 
       <div class="mt-auto border-t pt-4 border-slate-200/50 flex justify-between">
-        <div class="flex space-x-5">
+        <div class="flex space-x-3">
           <div>
             <img 
               src="/administrator.jpg"
@@ -22,9 +22,9 @@
               alt=""
             />
           </div>
-          <div>
-            <div class="">Administrator</div>
-            <div>admin@spdigital.com</div>
+          <div class="my-auto">
+            <div class="font-medium text-sm">Administrator</div>
+            <div class="text-xs">admin@spdigital.com</div>
           </div>
         </div>
         <img 
