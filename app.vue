@@ -26,7 +26,7 @@
     title: 'Visa Indonesia',
   })
 
-  // ignore warning to clean console.log
+  // ignore warning to clean browser console
   console.warn = () => {};
 
   // mobile nav logic

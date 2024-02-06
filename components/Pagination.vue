@@ -63,7 +63,6 @@
 
     // generate list of page by the available total page
     const generatePaginatedItems = (current: any, total: any) => {
-        console.log("bayu", total)
         const visiblePages = total >= 5 ? 5 : total
         const middleIndex = Math.floor(visiblePages / 2);
         const start = Math.min(Math.max(1, current - middleIndex), total - visiblePages + 1);
