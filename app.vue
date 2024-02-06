@@ -2,7 +2,7 @@
   <div class="bg-primary h-full lg:h-screen lg:flex">
     <Sidebar 
       :handleShow="() => handleShow()" 
-      :class="`${mobileNav === true ? 'left-0' : '-left-96' } lg:sticky z-50 lg:w-full fixed transition-all duration-500 h-full bg-primary lg:w-[25%]'`"
+      :class="`${mobileNav === true ? 'left-0' : '-left-96' } lg:sticky z-50 fixed transition-all duration-500 h-full bg-primary w-[65%] md:w-[35%] lg:w-[25%] '`"
     />
     
     <!-- icon for show mobile navbar -->

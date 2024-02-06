@@ -348,6 +348,9 @@
     const currentPage = ref(1);
     const pageSize = 10
     let totalPage = computed(() => Math.ceil(filteredCompanyData.value.length / pageSize));
+    watch(filteredCompanyData, () => {
+        currentPage.value = 1
+    })
     
     const paginatedData = computed(() => {
         const startIndex = (currentPage.value - 1) * pageSize;
